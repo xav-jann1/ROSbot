@@ -9,6 +9,7 @@
 #include <joint_limits_interface/joint_limits_interface.h>
 #include <joint_limits_interface/joint_limits_rosparam.h>
 #include <joint_limits_interface/joint_limits_urdf.h>
+#include <ros/callback_queue.h>
 #include <ros/ros.h>
 #include <boost/scoped_ptr.hpp>
 

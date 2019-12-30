@@ -48,8 +48,8 @@ void ROBOTHardwareInterface::init() {
     JointHandle jointPositionHandle(jointStateHandle, &joint_position_command_[i]);
     JointLimits limits;
     SoftJointLimits softLimits;
-    getJointLimits(joint.name, nh_, limits)
-        PositionJointSoftLimitsHandle jointLimitsHandle(jointPositionHandle, limits, softLimits);
+    getJointLimits(joint.name, nh_, limits);
+    PositionJointSoftLimitsHandle jointLimitsHandle(jointPositionHandle, limits, softLimits);
     positionJointSoftLimitsInterface.registerHandle(jointLimitsHandle);
     position_joint_interface_.registerHandle(jointPositionHandle);
 
