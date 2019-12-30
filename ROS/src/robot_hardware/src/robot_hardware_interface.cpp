@@ -1,5 +1,5 @@
-#include <ROBOT_hardware_interface/ROBOT_hardware_interface.h>
-#include <ROBOTcpp/ROBOT.h>
+#include <robot_hardware/robot_hardware_interface.h>
+#include <robotcpp/robot.h>
 #include <joint_limits_interface/joint_limits.h>
 #include <joint_limits_interface/joint_limits_interface.h>
 #include <joint_limits_interface/joint_limits_rosparam.h>
@@ -12,20 +12,20 @@ using joint_limits_interface::PositionJointSoftLimitsHandle;
 using joint_limits_interface::PositionJointSoftLimitsInterface;
 using joint_limits_interface::SoftJointLimits;
 
-namespace ROBOT_hardware_interface {
-ROBOTHardwareInterface::ROBOTHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
+namespace robot_hardware_interface {
+RobotHardwareInterface::RobotHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
   init();
   controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
-  nh_.param("/ROBOT/hardware_interface/loop_hz", loop_hz_, 0.1);
+  nh_.param("/robot/hardware_interface/loop_hz", loop_hz_, 0.1);
   ros::Duration update_freq = ros::Duration(1.0 / loop_hz_);
-  non_realtime_loop_ = nh_.createTimer(update_freq, &TR1HardwareInterface::update, this);
+  non_realtime_loop_ = nh_.createTimer(update_freq, &RobotHardwareInterface::update, this);
 }
 
-ROBOTHardwareInterface::~ROBOTHardwareInterface() {}
+RobotHardwareInterface::~RobotHardwareInterface() {}
 
-void ROBOTHardwareInterface::init() {
+void RobotHardwareInterface::init() {
   // Get joint names
-  nh_.getParam("/ROBOT/hardware_interface/joints", joint_names_);
+  nh_.getParam("/robot/hardware_interface/joints", joint_names_);
   num_joints_ = joint_names_.size();
 
   // Resize vectors
@@ -38,7 +38,7 @@ void ROBOTHardwareInterface::init() {
 
   // Initialize Controller
   for (int i = 0; i < num_joints_; ++i) {
-    ROBOTcpp::Joint joint = ROBOT.getJoint(joint_names_[i]);
+    robotcpp::Joint joint = robot.getJoint(joint_names_[i]);
 
     // Create joint state interface
     JointStateHandle jointStateHandle(joint.name, &joint_position_[i], &joint_velocity_[i], &joint_effort_[i]);
@@ -64,23 +64,23 @@ void ROBOTHardwareInterface::init() {
   registerInterface(&positionJointSoftLimitsInterface);
 }
 
-void ROBOTHardwareInterface::update(const ros::TimerEvent& e) {
+void RobotHardwareInterface::update(const ros::TimerEvent& e) {
   elapsed_time_ = ros::Duration(e.current_real - e.last_real);
   read();
   controller_manager_->update(ros::Time::now(), elapsed_time_);
   write(elapsed_time_);
 }
 
-void ROBOTHardwareInterface::read() {
+void RobotHardwareInterface::read() {
   for (int i = 0; i < num_joints_; i++) {
-    joint_position_[i] = ROBOT.getJoint(joint_names_[i]).read();
+    joint_position_[i] = robot.getJoint(joint_names_[i]).read();
   }
 }
 
-void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
+void RobotHardwareInterface::write(ros::Duration elapsed_time) {
   positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
   for (int i = 0; i < num_joints_; i++) {
-    ROBOT.getJoint(joint_names_[i]).actuate(joint_effort_command_[i]);
+    robot.getJoint(joint_names_[i]).actuate(joint_effort_command_[i]);
   }
 }
-}  // namespace ROBOT_hardware_interface
+}  // namespace robot_hardware_interface

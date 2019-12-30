@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(tr1_hardware_interface)
+project(robot_hardware)
 
 add_compile_options(-std=c++11)
 
@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   urdf
   control_toolbox
   joint_limits_interface
-	tr1cpp
+	robotcpp
 )
 
 catkin_package(
@@ -32,10 +32,10 @@ catkin_package(
     urdf
     control_toolbox
     joint_limits_interface
-		tr1cpp
+		robotcpp
   LIBRARIES 
-    tr1_hardware_interface
-		tr1cpp
+    robot_hardware_interface
+		robotcpp
 )
 
 include_directories(
@@ -47,15 +47,15 @@ install(DIRECTORY include/${PROJECT_NAME}/
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE)
 
-add_library(tr1_hardware_interface src/tr1_hardware_interface.cpp)
-add_dependencies(tr1_hardware_interface tr1cpp)
-target_link_libraries(tr1_hardware_interface
-	${tr1cpp_LIBRARIES}
+add_library(robot_hardware_interface src/robot_hardware_interface.cpp)
+add_dependencies(robot_hardware_interface robotcpp)
+target_link_libraries(robot_hardware_interface
+	${robotcpp_LIBRARIES}
 	${catkin_LIBRARIES})
 
-add_executable(tr1_hardware_interface_node src/tr1_hardware_interface_node.cpp)
-add_dependencies(tr1_hardware_interface_node tr1_hardware_interface)
+add_executable(robot_hardware_interface_node src/robot_hardware_interface_node.cpp)
+add_dependencies(robot_hardware_interface_node robot_hardware_interface)
 
-target_link_libraries(tr1_hardware_interface_node
-	tr1_hardware_interface
+target_link_libraries(robot_hardware_interface_node
+	robot_hardware_interface
 	${catkin_LIBRARIES})

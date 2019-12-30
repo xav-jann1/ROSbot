@@ -13,9 +13,9 @@
 #include <ros/ros.h>
 #include <boost/scoped_ptr.hpp>
 
-namespace ROBOT_hardware_interface {
+namespace robot_hardware_interface {
 /// \brief Hardware interface for a robot
-class ROBOTHardware : public hardware_interface::RobotHW {
+class RobotHardware : public hardware_interface::RobotHW {
  protected:
   // Interfaces
   hardware_interface::JointStateInterface joint_state_interface_;
@@ -51,6 +51,6 @@ class ROBOTHardware : public hardware_interface::RobotHW {
 
 };  // class
 
-}  // namespace ROBOT_hardware_interface
+}  // namespace robot_hardware_interface
 
 #endif

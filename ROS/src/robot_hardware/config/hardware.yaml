@@ -1,4 +1,4 @@
-ROBOT:
+robot:
   hardware_interface:
     loop_hz: 10 # hz
     joints:
