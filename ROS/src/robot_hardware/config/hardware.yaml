@@ -1,0 +1,6 @@
+ROBOT:
+  hardware_interface:
+    loop_hz: 10 # hz
+    joints:
+      - YOUR_ROBOT_JOINT
+      - YOUR_OTHER_ROBOT_JOINT
