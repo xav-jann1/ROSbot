@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
   urdf
   control_toolbox
   joint_limits_interface
-	robotcpp
 )
 
 catkin_package(
@@ -32,10 +31,8 @@ catkin_package(
     urdf
     control_toolbox
     joint_limits_interface
-		robotcpp
   LIBRARIES 
-    robot_hardware_interface
-		robotcpp
+    robot_hardware
 )
 
 include_directories(
@@ -47,15 +44,13 @@ install(DIRECTORY include/${PROJECT_NAME}/
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE)
 
-add_library(robot_hardware_interface src/robot_hardware_interface.cpp)
-add_dependencies(robot_hardware_interface robotcpp)
-target_link_libraries(robot_hardware_interface
-	${robotcpp_LIBRARIES}
+add_library(robot_hardware src/robot_hardware_interface.cpp)
+target_link_libraries(robot_hardware
 	${catkin_LIBRARIES})
 
 add_executable(robot_hardware_interface_node src/robot_hardware_interface_node.cpp)
-add_dependencies(robot_hardware_interface_node robot_hardware_interface)
+add_dependencies(robot_hardware_interface_node robot_hardware)
 
 target_link_libraries(robot_hardware_interface_node
-	robot_hardware_interface
+	robot_hardware
 	${catkin_LIBRARIES})

@@ -1,9 +1,9 @@
-#include <robot_hardware/robot_hardware_interface.h>
-#include <robotcpp/robot.h>
 #include <joint_limits_interface/joint_limits.h>
 #include <joint_limits_interface/joint_limits_interface.h>
 #include <joint_limits_interface/joint_limits_rosparam.h>
 #include <joint_limits_interface/joint_limits_urdf.h>
+#include <robot_hardware/robot_hardware_interface.h>
+// #include <robotcpp/robot.h>
 #include <sstream>
 
 using namespace hardware_interface;
@@ -37,7 +37,7 @@ void RobotHardwareInterface::init() {
   joint_effort_command_.resize(num_joints_);
 
   // Initialize Controller
-  for (int i = 0; i < num_joints_; ++i) {
+  /*for (int i = 0; i < num_joints_; ++i) {
     robotcpp::Joint joint = robot.getJoint(joint_names_[i]);
 
     // Create joint state interface
@@ -62,6 +62,27 @@ void RobotHardwareInterface::init() {
   registerInterface(&position_joint_interface_);
   registerInterface(&effort_joint_interface_);
   registerInterface(&positionJointSoftLimitsInterface);
+  */
+
+  /*** Code adapté du tutoriel de ros_control: "Create your own hardware interface" ***/
+
+  // connect and register the joint state interface
+  hardware_interface::JointStateHandle state_handle_a("wheel_l", &pos[0], &vel[0], &eff[0]);
+  joint_state_interface_.registerHandle(state_handle_a);
+
+  hardware_interface::JointStateHandle state_handle_b("wheel_r", &pos[1], &vel[1], &eff[1]);
+  joint_state_interface_.registerHandle(state_handle_b);
+
+  registerInterface(&joint_state_interface_);
+
+  // connect and register the joint position interface
+  hardware_interface::JointHandle pos_handle_a(joint_state_interface_.getHandle("wheel_l"), &cmd[0]);
+  velocity_joint_interface_.registerHandle(pos_handle_a);
+
+  hardware_interface::JointHandle pos_handle_b(joint_state_interface_.getHandle("wheel_r"), &cmd[1]);
+  velocity_joint_interface_.registerHandle(pos_handle_b);
+
+  registerInterface(&velocity_joint_interface_);
 }
 
 void RobotHardwareInterface::update(const ros::TimerEvent& e) {
@@ -72,15 +93,27 @@ void RobotHardwareInterface::update(const ros::TimerEvent& e) {
 }
 
 void RobotHardwareInterface::read() {
-  for (int i = 0; i < num_joints_; i++) {
+  /*for (int i = 0; i < num_joints_; i++) {
     joint_position_[i] = robot.getJoint(joint_names_[i]).read();
-  }
+  }*/
 }
 
 void RobotHardwareInterface::write(ros::Duration elapsed_time) {
-  positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
+  /*positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
   for (int i = 0; i < num_joints_; i++) {
     robot.getJoint(joint_names_[i]).actuate(joint_effort_command_[i]);
-  }
+  }*/
+
+  // Boucle fermée directe:
+  double v1 = cmd[0];
+  double v2 = cmd[1];
+
+  pos[0] += v1;
+  pos[1] += v2;
+
+  vel[0] = v1;
+  vel[1] = v2;
+
+  ROS_INFO("cmd: %.2f, %.2f", v1, v2);
 }
 }  // namespace robot_hardware_interface

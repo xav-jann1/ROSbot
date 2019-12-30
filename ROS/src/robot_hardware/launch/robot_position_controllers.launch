@@ -4,7 +4,6 @@
   <node name="robot_hardware_interface" pkg="robot_hardware" type="robot_hardware_interface_node" output="screen"/>
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/" args="
             /robot/controller/state
-            /robot/controller/position/YOUR_ROBOT_JOINT
-            /robot/controller/position/YOUR_OTHER_ROBOT_JOINT
+            /robot/controller/base_controller
         "/>
 </launch>
