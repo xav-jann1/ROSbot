@@ -1,11 +1,11 @@
 #ifndef ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H
 #define ROS_CONTROL__ROBOT_HARDWARE_INTERFACE_H
 
-#include <robot_hardware/robot_hardware.h>
 #include <controller_manager/controller_manager.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
+#include <robot_hardware/robot_hardware.h>
 #include <ros/ros.h>
 #include <boost/scoped_ptr.hpp>
 
@@ -24,6 +24,8 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
   void read();
   void write(ros::Duration elapsed_time);
 
+  int addJoint(int, std::string, std::string);
+
  protected:
   // robotcpp::Robot robot;
   ros::NodeHandle nh_;
@@ -33,12 +35,6 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
   double loop_hz_;
   boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
   double p_error_, v_error_, e_error_;
-
-  // Paramètres des joints:
-  double cmd[2];
-  double pos[2];
-  double vel[2];
-  double eff[2];
 };
 
 }  // namespace robot_hardware_interface

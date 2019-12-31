@@ -27,11 +27,11 @@ class RobotHardware : public hardware_interface::RobotHW {
   int num_joints_;
   int joint_mode_;  // position, velocity, or effort
   std::vector<std::string> joint_names_;
-  std::vector<int> joint_types_;
+  std::vector<std::string> joint_types_ = {"0", "1", "2"};
   std::vector<double> joint_position_;
   std::vector<double> joint_velocity_;
   std::vector<double> joint_effort_;
-  std::vector<double> joint_position_command_;
+  std::vector<double> joint_command_;
   std::vector<double> joint_velocity_command_;
   std::vector<double> joint_effort_command_;
 
