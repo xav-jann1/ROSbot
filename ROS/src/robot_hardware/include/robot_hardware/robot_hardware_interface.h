@@ -45,6 +45,9 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
 
   // Subscriber:
   ros::Subscriber joints_data_sub_;
+
+  // Autre:
+  bool simulate_joints_;
 };
 
 }  // namespace robot_hardware_interface

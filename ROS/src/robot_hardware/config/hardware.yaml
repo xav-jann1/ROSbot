@@ -3,3 +3,5 @@ robot:
     loop_hz: 50 # hz
     joints:
       - base_controller
+
+    simulate_joints: true

@@ -6,6 +6,11 @@ using namespace hardware_interface;
 namespace robot_hardware_interface {
 RobotHardwareInterface::RobotHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
   init();
+
+  // Paramètre "simulate_joints":
+  nh_.param("/robot/hardware_interface/simulate_joints", simulate_joints_, false);
+  if (simulate_joints_) ROS_INFO("! Simulation des joints actif");
+
   controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
   nh_.param("/robot/hardware_interface/loop_hz", loop_hz_, 0.1);
   ros::Duration update_freq = ros::Duration(1.0 / loop_hz_);
@@ -39,6 +44,7 @@ void RobotHardwareInterface::init() {
   joint_command_.resize(num_joints_);
   joint_velocity_command_.resize(num_joints_);
   joint_effort_command_.resize(num_joints_);
+  joint_type_.resize(num_joints_);
   joint_command_publisher_.resize(num_joints_);
 
   // Liste des types de joint:
@@ -118,6 +124,9 @@ int RobotHardwareInterface::addJoint(int i, std::string j_name, std::string join
 
   ROS_INFO("  > ajout du joint '%s' dans interface '%s'", joint_name, joint_types_[i_type].c_str());
 
+  // Enregistre l'interface utilisée par le joint:
+  joint_type_[i] = i_type;
+
   // Crée le publisher du joint:
   const std::string pub_name = "/robot/controller/" + j_name + "/command";
   joint_command_publisher_[i] = nh_.advertise<std_msgs::Float64>(pub_name, 1);
@@ -134,7 +143,31 @@ void RobotHardwareInterface::update(const ros::TimerEvent& e) {
   ros::spinOnce();
 }
 
-void RobotHardwareInterface::read() {}
+void RobotHardwareInterface::read() {
+  /**
+   * Read effectué par la fonction joints_data_callback() qui récupère les messages
+   * reçus pour le topic "/robot/controller/joints_data"
+   */
+
+  // Si la simulation des joints est activés:
+  if (simulate_joints_) {
+    // Simule chaque joint en boucle fermée à retour unitaire:
+    for (int i = 0; i < num_joints_; i++) {
+      // Position:
+      if (joint_type_[i] == 0) {
+        double p = joint_command_[i];
+        joint_velocity_[i] = joint_position_[i] - p;
+        joint_position_[i] = p;
+      }
+      // Vitesse:
+      else if (joint_type_[i] == 1) {
+        double v = joint_command_[i];
+        joint_position_[i] += v / loop_hz_;
+        joint_velocity_[i] = v;
+      }
+    }
+  }
+}
 
 void RobotHardwareInterface::write(ros::Duration elapsed_time) {
   /**
