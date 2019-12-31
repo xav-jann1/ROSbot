@@ -17,6 +17,11 @@ RobotHardwareInterface::~RobotHardwareInterface() {}
 void RobotHardwareInterface::init() {
   ROS_INFO("Ajout d'hardware interfaces pour les joints...");
 
+  // Crée le subscriber de tous les joints:
+  std::string sub_name = "/robot/controller/joints_data";
+  joints_data_sub_ = nh_.subscribe(sub_name, 1, &RobotHardwareInterface::joints_data_callback, this);
+  ROS_INFO("> ajout du subscriber: '%s'", sub_name.c_str());
+
   // Crée le publisher de tous les joints:
   std::string pub_name = "/robot/controller/joints_command";
   joints_command_publisher_ = nh_.advertise<std_msgs::Float64MultiArray>(pub_name, 1);
@@ -129,11 +134,7 @@ void RobotHardwareInterface::update(const ros::TimerEvent& e) {
   ros::spinOnce();
 }
 
-void RobotHardwareInterface::read() {
-  /*for (int i = 0; i < num_joints_; i++) {
-    joint_position_[i] = robot.getJoint(joint_names_[i]).read();
-  }*/
-}
+void RobotHardwareInterface::read() {}
 
 void RobotHardwareInterface::write(ros::Duration elapsed_time) {
   /**
@@ -166,20 +167,6 @@ void RobotHardwareInterface::write(ros::Duration elapsed_time) {
 
   // Publie les commandes:
   joints_command_publisher_.publish(msg);
-
-
-  /** WIP: Boucle fermée à retour unitaire **/
-
-  double v1 = joint_command_[0];
-  double v2 = joint_command_[1];
-
-  joint_position_[0] += v1 / loop_hz_;
-  joint_position_[1] += v2 / loop_hz_;
-
-  joint_velocity_[0] = v1;
-  joint_velocity_[1] = v2;
-
-  //ROS_INFO("cmd: %.2f, %.2f", v1, v2);
 }
 
 // Envoie une commande à un joint:
@@ -190,5 +177,15 @@ void RobotHardwareInterface::joint_command_publish(int i_joint, float cmd) {
 
   // Publie la commande:
   joint_command_publisher_[i_joint].publish(msg);
+}
+
+// Callback du subscriber des données des joints:
+void RobotHardwareInterface::joints_data_callback(const std_msgs::Float64MultiArray::ConstPtr& msg) {
+  // Récupère les données de chaque joint:
+  for (int i = 0; i < num_joints_; i++) {
+    joint_position_[i] = msg->data[i * 3];
+    joint_velocity_[i] = msg->data[i * 3 + 1];
+    joint_effort_[i] = msg->data[i * 3 + 2];
+  }
 }
 }  // namespace robot_hardware_interface

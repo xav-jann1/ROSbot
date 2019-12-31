@@ -28,6 +28,7 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
 
   int addJoint(int, std::string, std::string);
   void joint_command_publish(int, float);
+  void joints_data_callback(const std_msgs::Float64MultiArray::ConstPtr& msg);
 
  protected:
   ros::NodeHandle nh_;
@@ -41,6 +42,9 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
   // Publishers:
   ros::Publisher joints_command_publisher_;
   std::vector<ros::Publisher> joint_command_publisher_;
+
+  // Subscriber:
+  ros::Subscriber joints_data_sub_;
 };
 
 }  // namespace robot_hardware_interface
