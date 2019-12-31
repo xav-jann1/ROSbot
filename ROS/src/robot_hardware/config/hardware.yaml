@@ -1,5 +1,5 @@
 robot:
   hardware_interface:
-    loop_hz: 10 # hz
+    loop_hz: 50 # hz
     joints:
       - base_controller

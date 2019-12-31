@@ -15,12 +15,17 @@ RobotHardwareInterface::RobotHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
 RobotHardwareInterface::~RobotHardwareInterface() {}
 
 void RobotHardwareInterface::init() {
+  ROS_INFO("Ajout d'hardware interfaces pour les joints...");
+
+  // Crée le publisher de tous les joints:
+  std::string pub_name = "/robot/controller/joints_command";
+  joints_command_publisher_ = nh_.advertise<std_msgs::Float64MultiArray>(pub_name, 1);
+  ROS_INFO("> ajout du publisher: '%s'", pub_name.c_str());
+
   // Récupère les noms des joints:
   nh_.getParam("/robot/hardware_interface/joints", joint_names_);
   num_joints_ = joint_names_.size() + 1;  // '+ 1' car DiffDriveController
-
-  ROS_INFO("Ajout d'hardware interfaces pour les joints...");
-  ROS_INFO("-> %d joints a ajouter", num_joints_);
+  ROS_INFO("- %d joints a ajouter:", num_joints_);
 
   // Dimensionne les vectors pour contenir les valeurs de chaque joint:
   joint_position_.resize(num_joints_);
@@ -29,6 +34,7 @@ void RobotHardwareInterface::init() {
   joint_command_.resize(num_joints_);
   joint_velocity_command_.resize(num_joints_);
   joint_effort_command_.resize(num_joints_);
+  joint_command_publisher_.resize(num_joints_);
 
   // Liste des types de joint:
   joint_types_ = {"position_controllers/JointPositionController", "velocity_controllers/JointVelocityController", "effort_controllers/JointPositionController"};
@@ -105,7 +111,12 @@ int RobotHardwareInterface::addJoint(int i, std::string j_name, std::string join
   else if (i_type == 2)
     effort_joint_interface_.registerHandle(jointCommandHandle);
 
-  ROS_INFO("   > ajout du joint '%s' dans interface '%s'", joint_name, joint_types_[i_type].c_str());
+  ROS_INFO("  > ajout du joint '%s' dans interface '%s'", joint_name, joint_types_[i_type].c_str());
+
+  // Crée le publisher du joint:
+  const std::string pub_name = "/robot/controller/" + j_name + "/command";
+  joint_command_publisher_[i] = nh_.advertise<std_msgs::Float64>(pub_name, 1);
+  ROS_INFO("  > ajout du publisher: '%s'", pub_name.c_str());
 
   return i_type;
 }
@@ -115,6 +126,7 @@ void RobotHardwareInterface::update(const ros::TimerEvent& e) {
   read();
   controller_manager_->update(ros::Time::now(), elapsed_time_);
   write(elapsed_time_);
+  ros::spinOnce();
 }
 
 void RobotHardwareInterface::read() {
@@ -124,10 +136,39 @@ void RobotHardwareInterface::read() {
 }
 
 void RobotHardwareInterface::write(ros::Duration elapsed_time) {
-  /*positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
+  /**
+   * 2 méthodes possibles pour l'envoi des commandes:
+   *  - un message par joint : "/robot/controller/<joint_name>/command"
+   *  - un message pour tous les joints : "/robot/controller/joints_command"
+   *
+   * Tests avec loop_hz_ = 50 Hz, pour 2 joints:
+   *  - Méthode 1 :  800 B/s
+   *  - Méthode 2 : 2060 B/s
+   */
+
+  /** Méthode 1 : un message par joint **/
   for (int i = 0; i < num_joints_; i++) {
-    robot.getJoint(joint_names_[i]).actuate(joint_effort_command_[i]);
-  }*/
+    joint_command_publish(i, joint_command_[i]);
+  }
+
+  /** Méthode 2 : un message pour tous les joints **/
+
+  // Crée le message avec les commandes de tous les joints:
+  std_msgs::Float64MultiArray msg;
+  msg.layout.dim.push_back(std_msgs::MultiArrayDimension());
+  msg.layout.dim[0].size = joint_command_.size();
+  msg.layout.dim[0].stride = 1;
+  msg.layout.dim[0].label = "i";
+
+  // Ajoute les commandes:
+  msg.data.clear();
+  msg.data.insert(msg.data.end(), joint_command_.begin(), joint_command_.end());
+
+  // Publie les commandes:
+  joints_command_publisher_.publish(msg);
+
+
+  /** WIP: Boucle fermée à retour unitaire **/
 
   double v1 = joint_command_[0];
   double v2 = joint_command_[1];
@@ -138,6 +179,16 @@ void RobotHardwareInterface::write(ros::Duration elapsed_time) {
   joint_velocity_[0] = v1;
   joint_velocity_[1] = v2;
 
-  ROS_INFO("cmd: %.2f, %.2f", v1, v2);
+  //ROS_INFO("cmd: %.2f, %.2f", v1, v2);
+}
+
+// Envoie une commande à un joint:
+void RobotHardwareInterface::joint_command_publish(int i_joint, float cmd) {
+  // Crée le message:
+  std_msgs::Float64 msg;
+  msg.data = cmd;
+
+  // Publie la commande:
+  joint_command_publisher_[i_joint].publish(msg);
 }
 }  // namespace robot_hardware_interface
