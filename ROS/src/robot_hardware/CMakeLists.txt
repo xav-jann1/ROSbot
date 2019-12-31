@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
   transmission_interface
   urdf
   control_toolbox
-  joint_limits_interface
 )
 
 catkin_package(
@@ -30,7 +29,6 @@ catkin_package(
     transmission_interface
     urdf
     control_toolbox
-    joint_limits_interface
   LIBRARIES 
     robot_hardware
 )

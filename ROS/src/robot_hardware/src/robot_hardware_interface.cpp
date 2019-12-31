@@ -1,16 +1,8 @@
-#include <joint_limits_interface/joint_limits.h>
-#include <joint_limits_interface/joint_limits_interface.h>
-#include <joint_limits_interface/joint_limits_rosparam.h>
-#include <joint_limits_interface/joint_limits_urdf.h>
 #include <robot_hardware/robot_hardware_interface.h>
 // #include <robotcpp/robot.h>
 #include <sstream>
 
 using namespace hardware_interface;
-using joint_limits_interface::JointLimits;
-using joint_limits_interface::PositionJointSoftLimitsHandle;
-using joint_limits_interface::PositionJointSoftLimitsInterface;
-using joint_limits_interface::SoftJointLimits;
 
 namespace robot_hardware_interface {
 RobotHardwareInterface::RobotHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
