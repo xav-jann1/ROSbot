@@ -5,3 +5,7 @@ robot:
       - base_controller
 
     simulate_joints: true
+
+  rosserial:
+    port: "/dev/ttyS3"
+    baud: "115200"

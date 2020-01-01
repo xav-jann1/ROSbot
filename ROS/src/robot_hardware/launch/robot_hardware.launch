@@ -11,4 +11,8 @@
         /robot/controller/state
         /robot/controller/base_controller
       "/>
+
+  <!-- rosserial -->
+ <node name="rosserial" pkg="rosserial_python" type="serial_node.py" ns="/robot" output="screen"/>
+
 </launch>
