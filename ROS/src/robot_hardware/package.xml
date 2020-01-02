@@ -1,18 +1,13 @@
 <?xml version="1.0"?>
 <package>
   <name>robot_hardware</name>
-  <version>0.0.1</version>
-  <description>Provides the hardware definition and interfaces for robot</description>
+  <version>0.3.0</version>
+  <description>Implémentation d'une 'hardware_interface' pour utiliser les controllers de ROS</description>
 
-  <maintainer email="zach@slaterobots.com">Zach Allen</maintainer>
+  <maintainer email="xav.jann1@gmail.com">Xavier Jannin</maintainer>
+  <author email="xav.jann1@gmail.com">Xavier Jannin</author>
 
   <license>MIT</license>
-
-  <url type="website"></url>
-  <url type="bugtracker"></url>
-  <url type="repository">/</url>
-
-  <author email="zach@slaterobots.com">Zach Allen</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 
