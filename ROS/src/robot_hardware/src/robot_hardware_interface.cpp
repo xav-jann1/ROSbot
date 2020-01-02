@@ -11,6 +11,11 @@ RobotHardwareInterface::RobotHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
   nh_.param("/robot/hardware_interface/simulate_joints", simulate_joints_, false);
   if (simulate_joints_) ROS_INFO("! Simulation des joints actif");
 
+  // Paramètre "write_joints":
+  nh_.param("/robot/hardware_interface/write_joints", write_joints_, true);
+  write_joints_service_ = nh_.advertiseService("/robot/controller/write_joints", &RobotHardwareInterface::write_joints_srv, this);
+  if (!write_joints_) ROS_INFO("! Envois des commandes aux joints desactivees");
+
   controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
   nh_.param("/robot/hardware_interface/loop_hz", loop_hz_, 0.1);
   ros::Duration update_freq = ros::Duration(1.0 / loop_hz_);
@@ -139,7 +144,7 @@ void RobotHardwareInterface::update(const ros::TimerEvent& e) {
   elapsed_time_ = ros::Duration(e.current_real - e.last_real);
   read();
   controller_manager_->update(ros::Time::now(), elapsed_time_);
-  write(elapsed_time_);
+  if (write_joints_) write(elapsed_time_);
   ros::spinOnce();
 }
 
@@ -220,5 +225,13 @@ void RobotHardwareInterface::joints_data_callback(const std_msgs::Float64MultiAr
     joint_velocity_[i] = msg->data[i * 3 + 1];
     joint_effort_[i] = msg->data[i * 3 + 2];
   }
+}
+
+// Callback du service pour modifier le paramètre "write_joints":
+bool RobotHardwareInterface::write_joints_srv(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res) {
+  write_joints_ = req.data;
+  res.success = true;
+  res.message = req.data ? "true" : "false";
+  return true;
 }
 }  // namespace robot_hardware_interface

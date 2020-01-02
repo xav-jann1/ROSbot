@@ -9,6 +9,7 @@
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/Float64MultiArray.h>
+#include <std_srvs/SetBool.h>
 #include <boost/scoped_ptr.hpp>
 
 using namespace hardware_interface;
@@ -29,6 +30,7 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
   int addJoint(int, std::string, std::string);
   void joint_command_publish(int, float);
   void joints_data_callback(const std_msgs::Float64MultiArray::ConstPtr& msg);
+  bool write_joints_srv(std_srvs::SetBool::Request&, std_srvs::SetBool::Response&);
 
  protected:
   ros::NodeHandle nh_;
@@ -48,6 +50,8 @@ class RobotHardwareInterface : public robot_hardware_interface::RobotHardware {
 
   // Autre:
   bool simulate_joints_;
+  bool write_joints_;
+  ros::ServiceServer write_joints_service_;
 };
 
 }  // namespace robot_hardware_interface
