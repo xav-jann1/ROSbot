@@ -7,7 +7,9 @@ project(robot_control)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS)
+find_package(catkin REQUIRED COMPONENTS
+  teleop_twist_keyboard
+)
 
 ###################################
 ## catkin specific configuration ##

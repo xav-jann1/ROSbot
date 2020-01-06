@@ -10,6 +10,7 @@
   <author email="xav.jann1@gmail.com">Xavier Jannin</author>
   
   <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>teleop_twist_keyboard</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
