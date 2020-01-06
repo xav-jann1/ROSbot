@@ -1,0 +1,12 @@
+robot:
+  hardware_interface:
+    loop_hz: 50 # hz
+    joints:
+      - base_controller
+
+    simulate_joints: true
+    write_joints: false
+
+  rosserial:
+    port: "/dev/ttyS3"
+    baud: "115200"
