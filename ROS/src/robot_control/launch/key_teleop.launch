@@ -1,0 +1,7 @@
+<launch>
+  <!-- Key Teleop -->
+  <node name="key_teleop" pkg="key_teleop" type="key_teleop.py" output="screen">
+    <rosparam file="$(find robot_control)/config/key_teleop.yaml" command="load"/>
+    <remap from="key_vel" to="/robot/controller/base_controller/cmd_vel"/>
+  </node>
+</launch>
