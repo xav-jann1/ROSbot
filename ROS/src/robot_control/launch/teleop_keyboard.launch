@@ -1,0 +1,6 @@
+<launch>
+  <!-- Teleop Twist Keyboard -->
+  <node name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+    <remap from="cmd_vel" to="/robot/controller/base_controller/cmd_vel"/>
+  </node>
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+  <!-- Mouse Teleop Mux -->
+  <node name="mouse_teleop" pkg="mouse_teleop" type="mouse_teleop.py" output="screen">
+    <rosparam file="$(find robot_control)/config/mouse_teleop.yaml" command="load"/>
+    <param name="frequency" value="0"/>
+  </node>
+</launch>

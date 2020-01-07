@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>robot_control</name>
+  <version>0.4.0</version>
+  
+  <description>The robot_control package</description>
+  <license>MIT</license>
+
+  <maintainer email="xav.jann1@gmail.com">Xavier Jannin</maintainer>
+  <author email="xav.jann1@gmail.com">Xavier Jannin</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>twist_mux</exec_depend>
+  <exec_depend>key_teleop</exec_depend>
+  <exec_depend>mouse_teleop</exec_depend>
+  <exec_depend>teleop_twist_keyboard</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>
