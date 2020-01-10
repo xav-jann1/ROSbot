@@ -34,10 +34,9 @@
 
 // Original version: Melonee Wise <mwise@willowgarage.com>
 
-#include "control_toolbox/pid.h"
-#include "tinyxml.h"
+#include "robot_PID.h"
 
-namespace control_toolbox {
+namespace robot {
 
 Pid::Pid(double P, double I, double D, double I1, double I2) :
   p_gain_(P), i_gain_(I), d_gain_(D), i_max_(I1), i_min_(I2)
@@ -47,6 +46,10 @@ Pid::Pid(double P, double I, double D, double I1, double I2) :
   d_error_ = 0.0;
   i_error_ = 0.0;
   cmd_ = 0.0;
+}
+
+Pid::Pid(PidDef def) : Pid(def.p, def.i, def.d, def.i_max, def.i_min)
+{
 }
 
 Pid::~Pid()
@@ -91,65 +94,19 @@ void Pid::setGains(double P, double I, double D, double I1, double I2)
   i_min_ = I2;
 }
 
-bool Pid::initParam(const std::string& prefix)
-{
-  ros::NodeHandle node(prefix);
-
-  if (!node.getParam("p", p_gain_)) {
-    ROS_ERROR("No p gain specified for pid.  Prefix: %s", prefix.c_str());
-    return false;
-  }
-  node.param("i", i_gain_, 0.0) ;
-  node.param("d", d_gain_, 0.0) ;
-  node.param("i_clamp", i_max_, 0.0) ;
-  i_min_ = -i_max_;
-
-  reset();
-  return true;
-}
-
-bool Pid::initXml(TiXmlElement *config)
-{
-  p_gain_ = config->Attribute("p") ? atof(config->Attribute("p")) : 0.0;
-  i_gain_ = config->Attribute("i") ? atof(config->Attribute("i")) : 0.0;
-  d_gain_ = config->Attribute("d") ? atof(config->Attribute("d")) : 0.0;
-  i_max_ = config->Attribute("iClamp") ? atof(config->Attribute("iClamp")) : 0.0;
-  i_min_ = -i_max_;
-
-  reset();
-  return true;
-}
-
-bool Pid::init(const ros::NodeHandle &node)
-{
-  ros::NodeHandle n(node);
-  if (!n.getParam("p", p_gain_)) {
-    ROS_ERROR("No p gain specified for pid.  Namespace: %s", n.getNamespace().c_str());
-    return false;
-  }
-  n.param("i", i_gain_, 0.0);
-  n.param("d", d_gain_, 0.0);
-  n.param("i_clamp", i_max_, 0.0);
-  i_min_ = -i_max_;
-
-  reset();
-  return true;
-}
-
-
-double Pid::updatePid(double error, ros::Duration dt)
+double Pid::updatePid(double error, float dt)
 {
   double p_term, d_term, i_term;
   p_error_ = error; //this is pError = pState-pTarget
 
-  if (dt == ros::Duration(0.0) || std::isnan(error) || std::isinf(error))
+  if (dt == 0.0 || std::isnan(error) || std::isinf(error))
     return 0.0;
 
   // Calculate proportional contribution to command
   p_term = p_gain_ * p_error_;
 
   // Calculate the integral error
-  i_error_ = i_error_ + dt.toSec() * p_error_;
+  i_error_ = i_error_ + dt * p_error_;
 
   //Calculate integral contribution to command
   i_term = i_gain_ * i_error_;
@@ -167,9 +124,9 @@ double Pid::updatePid(double error, ros::Duration dt)
   }
 
   // Calculate the derivative error
-  if (dt.toSec() != 0)
+  if (dt != 0)
   {
-    d_error_ = (p_error_ - p_error_last_) / dt.toSec();
+    d_error_ = (p_error_ - p_error_last_) / dt;
     p_error_last_ = p_error_;
   }
   // Calculate derivative contribution to command
@@ -180,13 +137,13 @@ double Pid::updatePid(double error, ros::Duration dt)
 }
 
 
-double Pid::updatePid(double error, double error_dot, ros::Duration dt)
+double Pid::updatePid(double error, double error_dot, float dt)
 {
   double p_term, d_term, i_term;
   p_error_ = error; //this is pError = pState-pTarget
   d_error_ = error_dot;
 
-  if (dt == ros::Duration(0.0) || std::isnan(error) || std::isinf(error) || std::isnan(error_dot) || std::isinf(error_dot))
+  if (dt == 0.0 || std::isnan(error) || std::isinf(error) || std::isnan(error_dot) || std::isinf(error_dot))
     return 0.0;
 
 
@@ -194,7 +151,7 @@ double Pid::updatePid(double error, double error_dot, ros::Duration dt)
   p_term = p_gain_ * p_error_;
 
   // Calculate the integral error
-  i_error_ = i_error_ + dt.toSec() * p_error_;
+  i_error_ = i_error_ + dt * p_error_;
 
   //Calculate integral contribution to command
   i_term = i_gain_ * i_error_;

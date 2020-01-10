@@ -31,16 +31,17 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
-#ifndef CONTROL_TOOLBOX_PID_H
-#define CONTROL_TOOLBOX_PID_H
-
+#ifndef ROBOT_PID_H
+#define ROBOT_PID_H
 
 #include <string>
-#include "ros/node_handle.h"
+#include "ros/node_handle.h"  // std::isnan(), std::isinf()
 
-class TiXmlElement;
+namespace robot {
 
-namespace control_toolbox {
+typedef struct {
+  float p, i, d, i_max, i_min;
+} PidDef;
 
 /***************************************************/
 /***************************************************/
@@ -51,15 +52,15 @@ public:
 
   Pid(double P = 0.0, double I = 0.0, double D = 0.0, double I1 = 0.0, double I2 = -0.0);
 
+  Pid(PidDef pid_def);
+
   ~Pid();
 
-  double updatePid(double p_error, ros::Duration dt);
+  double updatePid(double p_error, float dt);
 
   void initPid(double P, double I, double D, double I1, double I2);
   
   bool initParam(const std::string& prefix);
-  bool initXml(TiXmlElement *config);
-  bool init(const ros::NodeHandle &n);
 
   void reset();
 
@@ -73,7 +74,7 @@ public:
 
   void getGains(double &p, double &i, double &d, double &i_max, double &i_min);
 
-  double updatePid(double error, double error_dot, ros::Duration dt);
+  double updatePid(double error, double error_dot, float dt);
 
   Pid &operator =(const Pid& p)
   {
@@ -91,16 +92,17 @@ public:
   }
 
 private:
+  double p_gain_;
+  double i_gain_;
+  double d_gain_;
+  double i_max_;
+  double i_min_;
+
   double p_error_last_; 
   double p_error_; 
   double d_error_; 
   double i_error_; 
-  double p_gain_;  
-  double i_gain_;  
-  double d_gain_;  
-  double i_max_;   
-  double i_min_;   
-  double cmd_;     
+  double cmd_;
 };
 
 }
