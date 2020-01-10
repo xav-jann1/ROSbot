@@ -1,0 +1,17 @@
+<launch>
+  <!-- Paramètres -->
+  <rosparam file="$(find robot_hardware)/config/hardware.yaml" command="load"/>
+  <rosparam file="$(find robot_hardware)/config/controllers.yaml" command="load"/>
+  
+  <!-- Hardware interface -->
+  <param name="/robot/hardware_interface/write_joints" value="false"/>
+  <param name="/robot/hardware_interface/simulate_joints" value="true"/>
+  <node name="robot_hardware_interface" pkg="robot_hardware" type="robot_hardware_interface_node" output="screen"/>
+  
+  <!-- Controller manager -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/" args="
+        /robot/controller/state
+        /robot/controller/base_controller
+      "/>
+
+</launch>
