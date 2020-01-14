@@ -12,8 +12,8 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_uart.h"
 
-#define RX_BUF_SIZE 512
-#define TX_BUF_SIZE 512
+#define RX_BUF_SIZE 1024 // 512
+#define TX_BUF_SIZE 1024 // 512
 
 class BufferedSerial {
  private:

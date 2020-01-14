@@ -625,14 +625,14 @@ public:
     }
     return false;
   }
-  bool getParam(const char* name, float* param, int length = 1, int timeout = 1000)
+  bool getParam(const char* name, float* param, unsigned int length = 1, int timeout = 1000)
   {
     if (requestParam(name, timeout))
     {
       if (length == req_param_resp.floats_length)
       {
         //copy it over
-        for (int i = 0; i < length; i++)
+        for (unsigned int i = 0; i < length; i++)
           param[i] = req_param_resp.floats[i];
         return true;
       }
