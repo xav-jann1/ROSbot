@@ -86,6 +86,18 @@ void Pid::initPid(double P, double I, double D, double I1, double I2)
   reset();
 }
 
+void Pid::initPid(ros::NodeHandle& nh, const std::string prefix)
+{
+  float p, i, d, i_max, i_min;
+  nh.loginfo(("> Récupère valeurs du PID dans '" + prefix + "'").c_str());
+  nh.getParam((prefix + "/p").c_str(), &p);
+  nh.getParam((prefix + "/i").c_str(), &i);
+  nh.getParam((prefix + "/d").c_str(), &d);
+  nh.getParam((prefix + "/i_max").c_str(), &i_max);
+  nh.getParam((prefix + "/i_min").c_str(), &i_min);
+  initPid(p, i, d, i_max, i_min);
+}
+
 void Pid::addSubscribers(ros::NodeHandle& nh)
 {
   nh.subscribe(set_p_sub_);

@@ -38,6 +38,9 @@ public:
   }
 
   // PID:
+  void initPid(ros::NodeHandle& nh, const std::string prefix) {
+    pid_.initPid(nh, prefix);
+  }
   void addPidSubscribers(ros::NodeHandle& nh) {
     pid_.addSubscribers(nh);
   }

@@ -60,8 +60,8 @@ public:
   double updatePid(double p_error, float dt);
 
   void initPid(double P, double I, double D, double I1, double I2);
-  
-  bool initParam(const std::string& prefix);
+
+  void initPid(ros::NodeHandle&, const std::string);
 
   void addSubscribers(ros::NodeHandle&);
 
