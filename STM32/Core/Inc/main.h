@@ -50,6 +50,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -58,6 +60,11 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define ENCODER_PERIOD 0xFFFF
+#define ENCODER_RELOAD (ENCODER_PERIOD / 2)
+#define PWM_FREQ 24000
+#define PWM_PERIOD (CLOCK_FREQ / PWM_FREQ - 1)
+#define CLOCK_FREQ 84000000
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
 #define USART_TX_Pin GPIO_PIN_2
@@ -66,12 +73,32 @@ void Error_Handler(void);
 #define USART_RX_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define Motor_L_IN2_Pin GPIO_PIN_6
+#define Motor_L_IN2_GPIO_Port GPIOA
+#define Motor_L_IN1_Pin GPIO_PIN_7
+#define Motor_L_IN1_GPIO_Port GPIOA
+#define Motor_R_EN_Pin GPIO_PIN_8
+#define Motor_R_EN_GPIO_Port GPIOA
+#define Motor_L_EN_Pin GPIO_PIN_9
+#define Motor_L_EN_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define Encoder_L_CH1_Pin GPIO_PIN_4
+#define Encoder_L_CH1_GPIO_Port GPIOB
+#define Encoder_L_CH2_Pin GPIO_PIN_5
+#define Encoder_L_CH2_GPIO_Port GPIOB
+#define Encoder_R_CH1_Pin GPIO_PIN_6
+#define Encoder_R_CH1_GPIO_Port GPIOB
+#define Encoder_R_CH2_Pin GPIO_PIN_7
+#define Encoder_R_CH2_GPIO_Port GPIOB
+#define Motor_R_IN2_Pin GPIO_PIN_8
+#define Motor_R_IN2_GPIO_Port GPIOB
+#define Motor_R_IN1_Pin GPIO_PIN_9
+#define Motor_R_IN1_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
