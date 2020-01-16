@@ -1,7 +1,8 @@
 #include "robot_node.h"
 
 // Joints:
-extern robot::VelocityJoint joint1;
+extern robot::VelocityJoint wheel_l_joint;
+extern robot::VelocityJoint wheel_r_joint;
 
 namespace robot {
 
@@ -11,7 +12,8 @@ ros::Publisher joints_data_pub(JOINTS_DATA_TOPIC, &joints_data_msg);
 
 // Subscriber:
 void joints_command_cb(const std_msgs::Float64MultiArray &msg) {
-  joint1.command(msg.data[0]);
+  wheel_l_joint.command(msg.data[0]);
+  wheel_r_joint.command(msg.data[1]);
 }
 ros::Subscriber<std_msgs::Float64MultiArray> joints_command_sub(JOINTS_COMMAND_TOPIC, &joints_command_cb);
 
@@ -33,10 +35,12 @@ void initNode(ros::NodeHandle& nh) {
 
 void publishJointsData() {
   // Remplie le message:
-  joints_data_msg.data[0] = joint1.getPosition();
-  joints_data_msg.data[1] = joint1.getVelocity();
-  joints_data_msg.data[3] = 0;
-  joints_data_msg.data[4] = 0;
+  joints_data_msg.data[0] = wheel_l_joint.getPosition();
+  joints_data_msg.data[1] = wheel_l_joint.getVelocity();
+  joints_data_msg.data[2] = wheel_l_joint.getPWM();
+  joints_data_msg.data[3] = wheel_r_joint.getPosition();
+  joints_data_msg.data[4] = wheel_r_joint.getVelocity();
+  joints_data_msg.data[5] = wheel_l_joint.getPWM();
 
   // Publie le message:
   joints_data_pub.publish(&joints_data_msg);

@@ -4,9 +4,9 @@ robot:
     joints:
       - base_controller
 
-    simulate_joints: true
-    write_joints: false
+    simulate_joints: false
+    write_joints: true
 
   rosserial:
-    port: "/dev/ttyS3"
+    port: "/dev/ttyS6"
     baud: "115200"

@@ -2,47 +2,76 @@
 #define ROBOT_CONFIG_H_
 
 #include "stm32f4xx_hal.h"
+#include "main.h"
 
 // Loop
 #define LOOP_DATA_MS   100
 #define LOOP_JOINTS_MS  20
 
 // Topics:
-#define JOINTS_DATA_TOPIC    "controller/joints_data2"
+#define JOINTS_DATA_TOPIC    "controller/joints_data"
 #define JOINTS_COMMAND_TOPIC "controller/joints_command"
 
 // Encoder:
-// Constantes déjà configurées dans 'Device Configuration Tool':
-#define ENCODER_PERIOD 0xFFFF
-#define ENCODER_RELOAD (ENCODER_PERIOD / 2)
-#define ENCODER_RESOLUTION 64
+#define ENCODER_RESOLUTION (1024 * 4 - 1)
 
-/***
- * Joint 1
+// Roues:
+#define DIAMETRE_ROUE     0.085 // m
+#define DIAMETRE_ENCODER  0.037 // m
+#define JOINT_RATIO (DIAMETRE_ENCODER / DIAMETRE_ROUE)
+
+/**
+ * Joint wheel_l
  */
 
 // Encoder:
 extern TIM_HandleTypeDef htim3;
-#define enc_def { htim3, ENCODER_RESOLUTION, ENCODER_RELOAD }
+#define l_enc_def { htim3, ENCODER_RESOLUTION, ENCODER_RELOAD }
 
 // PID:
-#define pid_values  0.5f, 0.2f, 0.0f
-#define pid_i_max_min  0.3f, -0.3f
-#define joint1_pid_def { pid_values, pid_i_max_min }
+#define l_pid_values  0.2f, 0.0f, 0.0f
+#define l_pid_i_max_min  0.3f, -0.3f
+#define l_pid_def { l_pid_values, l_pid_i_max_min }
 
 // Motor:
-extern TIM_HandleTypeDef htim2;
-#define mot_enA { htim2, TIM_CHANNEL_3, PWM_PERIOD, 0.8f, 0.2f }
-#define mot_in1 { GPIOB, GPIO_PIN_4 }
-#define mot_in2 { GPIOB, GPIO_PIN_5 }
-#define mot_def { mot_enA, mot_in1, mot_in2 }
+extern TIM_HandleTypeDef htim1;
+#define l_mot_enA { htim1, TIM_CHANNEL_2, PWM_PERIOD, 0.8f, 0.0f }  // PA9
+#define l_mot_in1 { Motor_L_IN1_GPIO_Port, Motor_L_IN1_Pin }        // PA7
+#define l_mot_in2 { Motor_L_IN2_GPIO_Port, Motor_L_IN2_Pin }        // PA6
+#define l_mot_def { l_mot_enA, l_mot_in1, l_mot_in2 }
 
 // Joint:
-#define JOINT_NAME "wheel_right"
-#define JOINT_RATIO 1/43.8f
-#define joint_def { JOINT_NAME, JOINT_RATIO }
+#define L_JOINT_NAME "wheel_l"
+#define l_joint_def { L_JOINT_NAME, JOINT_RATIO }
 
 // Création du Joint:
-#define joint1_defs enc_def, joint1_pid_def, mot_def, joint_def
+#define wheel_l_defs l_enc_def, l_pid_def, l_mot_def, l_joint_def
 
-#endif /* INC_ROBOT_CONFIG_H_ */
+/**
+ * Joint wheel_r
+ */
+
+// Encoder:
+extern TIM_HandleTypeDef htim4;
+#define r_enc_def { htim4, ENCODER_RESOLUTION, ENCODER_RELOAD }
+
+// PID:
+#define r_pid_values  0.2f, 0.0f, 0.0f
+#define r_pid_i_max_min  0.3f, -0.3f
+#define r_pid_def { r_pid_values, r_pid_i_max_min }
+
+// Motor:
+extern TIM_HandleTypeDef htim1;
+#define r_mot_enA { htim1, TIM_CHANNEL_1, PWM_PERIOD, 0.8f, 0.0f }  // PA8
+#define r_mot_in1 { Motor_R_IN1_GPIO_Port, Motor_R_IN1_Pin }        // PB9
+#define r_mot_in2 { Motor_R_IN2_GPIO_Port, Motor_R_IN2_Pin }        // PB8
+#define r_mot_def { r_mot_enA, r_mot_in1, r_mot_in2 }
+
+// Joint:
+#define R_JOINT_NAME "wheel_r"
+#define r_joint_def { R_JOINT_NAME, JOINT_RATIO }
+
+// Création du Joint:
+#define wheel_r_defs r_enc_def, r_pid_def, r_mot_def, r_joint_def
+
+#endif /* ROBOT_CONFIG_H_ */
