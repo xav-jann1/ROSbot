@@ -83,6 +83,8 @@ private:
   float ratio_ = 1;
   float pwm_ = 0;
 
+  uint32_t t_ = 0;
+
   // Subscribers:
   std::string set_command_name_;
   ros::Subscriber<std_msgs::Float32, robot::VelocityJoint> set_command_sub_;

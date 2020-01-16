@@ -64,7 +64,6 @@ float VelocityJoint::update() {
 }
 
 float VelocityJoint::getDeltaTicks() {
-  static uint32_t t_;
   uint32_t t = HAL_GetTick();
   uint32_t dt = t - t_;
   t_ = t;
