@@ -1,8 +1,12 @@
 ### Own ####
+.vscode
 test/
 docs/
 *.todo
 
+## STM32
+*/Debug/
+*Debug.launch
 
 ### C++ ###
 
@@ -69,10 +73,6 @@ devel_isolated/
 # Ignore generated docs
 *.dox
 *.wikidoc
-
-# eclipse stuff
-.project
-.cproject
 
 # qcreator stuff
 CMakeLists.txt.user
