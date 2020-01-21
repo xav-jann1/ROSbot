@@ -12,6 +12,7 @@ namespace robot {
 void initNode(ros::NodeHandle& nh);
 void initJointsDataMsg();
 
+void updateNode(ros::NodeHandle& nh);
 void publishJointsData();
 
 }
