@@ -59,4 +59,7 @@ void HAL_SYSTICK_Callback() {
     //wheel_l_joint.publishPidValues();
     //wheel_r_joint.publishPidValues();
   }
+
+  // Mise à jour de la connexion avec ROS:
+  robot::updateNode(nh);
 }
