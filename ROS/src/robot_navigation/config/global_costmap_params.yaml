@@ -1,0 +1,11 @@
+global_costmap:
+  # Frames:
+  global_frame: map
+  robot_base_frame: base_footprint
+  
+  # Update:
+  update_frequency: 5.0
+  
+  # Map:
+  static_map: true
+  transform_tolerance: 0.5
