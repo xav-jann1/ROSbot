@@ -1,0 +1,24 @@
+<launch>
+
+  <!-- Map server --> 
+  <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(find robot_navigation)/maps/playground.pgm 0.05"/> -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find robot_navigation)/maps/terrain.pgm 0.01"/>
+
+  <!--- Run AMCL --> 
+  <!-- <include file="$(find amcl)/examples/amcl_omni.launch" /> -->
+
+  <!-- TF Transform: /map <- /odom -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="link_broadcaster" args="1 1 0 0 0 0 1 map odom" output="screen"/>
+
+  <!-- Move base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find robot_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+    <rosparam file="$(find robot_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find robot_navigation)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find robot_navigation)/config/global_costmap_params.yaml" command="load" /> 
+    <rosparam file="$(find robot_navigation)/config/base_local_planner_params.yaml" command="load" />
+    <!-- <remap from="/cmd_vel" to="/nav_vel"/> -->
+    <remap from="/cmd_vel" to="/robot/controller/base_controller/cmd_vel"/>
+ </node>
+
+</launch> 
