@@ -8,6 +8,7 @@
 #include "ros.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/Int32.h"
+#include "std_msgs/Empty.h"
 
 namespace robot {
 
@@ -42,6 +43,8 @@ public:
   void addPublishers(ros::NodeHandle& nh);
   void publishData();
 
+  // Subscriber
+  void addSubscriber(ros::NodeHandle& nh);
 
 private:
   // Paramètres:
@@ -68,6 +71,11 @@ private:
   std_msgs::Float32 vel_msg_;
   std_msgs::Int32 ticks_msg_;
   std_msgs::Int32 dticks_msg_;
+
+  // Subscriber:
+  std::string reset_name_;
+  ros::Subscriber<std_msgs::Empty, robot::Encoder> reset_sub_;
+  void reset_cb(const std_msgs::Empty &msg) { ticks_ = dticks_ = dticks_s_ = 0; }
 
   // Encoder:
   int ticks_;

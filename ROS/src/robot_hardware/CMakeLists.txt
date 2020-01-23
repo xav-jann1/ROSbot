@@ -11,9 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   actionlib
   pluginlib
-  transmission_interface
   urdf
-  control_toolbox
 )
 
 catkin_package(
@@ -26,9 +24,7 @@ catkin_package(
     control_msgs
     trajectory_msgs
     pluginlib
-    transmission_interface
     urdf
-    control_toolbox
   LIBRARIES 
     robot_hardware
 )

@@ -12,6 +12,7 @@ void initJoint(robot::VelocityJoint &joint, ros::NodeHandle& nh) {
   joint.addPidSubscribers(nh);
   joint.addPidPublishers(nh);
   joint.addEncoderPublishers(nh);
+  joint.addEncoderSubscriber(nh);
 }
 
 void getJointPidValues(robot::VelocityJoint &joint, std::string topic_name, ros::NodeHandle& nh) {
