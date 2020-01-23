@@ -8,7 +8,9 @@ Encoder::Encoder(EncoderDef enc_def, std::string name) :
     pos_pub_(pos_name_.c_str(), &pos_msg_),
     vel_pub_(vel_name_.c_str(), &vel_msg_),
     ticks_pub_(ticks_name_.c_str(), &ticks_msg_),
-    dticks_pub_(dticks_name_.c_str(), &dticks_msg_)
+    dticks_pub_(dticks_name_.c_str(), &dticks_msg_),
+    reset_name_(name + "/reset"),
+    reset_sub_(reset_name_.c_str(), &Encoder::reset_cb, this)
 {
 }
 
@@ -37,6 +39,10 @@ void Encoder::addPublishers(ros::NodeHandle& nh) {
   nh.advertise(vel_pub_);
   nh.advertise(ticks_pub_);
   nh.advertise(dticks_pub_);
+}
+
+void Encoder::addSubscriber(ros::NodeHandle& nh) {
+  nh.subscribe(reset_sub_);
 }
 
 void Encoder::publishData() {

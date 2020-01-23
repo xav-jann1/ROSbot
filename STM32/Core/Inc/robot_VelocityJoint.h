@@ -34,6 +34,9 @@ public:
   void addEncoderPublishers(ros::NodeHandle& nh) {
     encoder_.addPublishers(nh);
   }
+  void addEncoderSubscriber(ros::NodeHandle& nh) {
+      encoder_.addSubscriber(nh);
+    }
   void publishEncoderData() {
     encoder_.publishData();
   }
