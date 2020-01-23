@@ -29,8 +29,8 @@ extern TIM_HandleTypeDef htim3;
 #define l_enc_def { htim3, ENCODER_RESOLUTION, ENCODER_RELOAD }
 
 // PID:
-#define l_pid_values  0.2f, 0.0f, 0.0f
-#define l_pid_i_max_min  0.3f, -0.3f
+#define l_pid_values  0.22f, 0.6f, 0.0f
+#define l_pid_i_max_min  0.5f, -0.5f
 #define l_pid_def { l_pid_values, l_pid_i_max_min }
 
 // Motor:
@@ -56,8 +56,8 @@ extern TIM_HandleTypeDef htim4;
 #define r_enc_def { htim4, ENCODER_RESOLUTION, ENCODER_RELOAD }
 
 // PID:
-#define r_pid_values  0.2f, 0.0f, 0.0f
-#define r_pid_i_max_min  0.3f, -0.3f
+#define r_pid_values  0.22f, 0.6f, 0.0f
+#define r_pid_i_max_min  0.5f, -0.5f
 #define r_pid_def { r_pid_values, r_pid_i_max_min }
 
 // Motor:
