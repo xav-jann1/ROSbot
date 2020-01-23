@@ -1,0 +1,13 @@
+<launch>
+  <!-- Hardware Interface -->
+  <include file="$(find robot_hardware)/launch/robot_hardware_simulation.launch"/>
+
+  <!-- Navigation -->
+  <include file="$(find robot_navigation)/launch/move_base.launch"/>
+
+  <!-- RViz -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_navigation)/config/navigation.rviz"/>
+
+  <!-- Mouse Teleop -->
+  <include file="$(find robot_control)/launch/mouse_teleop.launch"/>
+</launch>

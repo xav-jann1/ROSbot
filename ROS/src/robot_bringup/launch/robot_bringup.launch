@@ -1,0 +1,18 @@
+<launch>
+  <!-- Exécution sur le PC -->
+  <!-- RViz -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_navigation)/config/navigation.rviz"/>
+
+  <!-- Mouse Teleop -->
+  <include file="$(find robot_control)/launch/mouse_teleop.launch"/>
+
+
+  <!-- Exécution sur la Raspberry -->
+  <machine name="raspi" address="10.42.0.1" user="ubuntu" password="ubuntu" env-loader="ROS/devel/env.sh" default="true"/>
+
+  <!-- Hardware Interface -->
+  <include file="$(find robot_hardware)/launch/robot_hardware.launch"/>
+
+  <!-- Navigation -->
+  <include file="$(find robot_navigation)/launch/move_base.launch"/>
+</launch>
