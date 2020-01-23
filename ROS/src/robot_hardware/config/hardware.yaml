@@ -8,5 +8,5 @@ robot:
     write_joints: true
 
   rosserial:
-    port: "/dev/ttyS6"
+    port: "/dev/ttyACM0"
     baud: "115200"
