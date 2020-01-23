@@ -5,6 +5,10 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Move base1
+        - /Move base1/Current goal1
+        - /Move base1/Goal1
+        - /Global1
         - /Local1
         - /TrajectoryPlannerROS1
       Splitter Ratio: 0.5028355121612549
@@ -74,13 +78,22 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_footprint:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        map:
+          odom:
+            base_footprint:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -101,10 +114,10 @@ Visualization Manager:
           Class: rviz/Pose
           Color: 255; 25; 0
           Enabled: true
-          Head Length: 0.30000001192092896
+          Head Length: 0.10000000149011612
           Head Radius: 0.10000000149011612
           Name: Current goal
-          Shaft Length: 1
+          Shaft Length: 0.20000000298023224
           Shaft Radius: 0.05000000074505806
           Shape: Arrow
           Topic: /move_base/current_goal
@@ -116,10 +129,10 @@ Visualization Manager:
           Class: rviz/Pose
           Color: 255; 25; 0
           Enabled: true
-          Head Length: 0.30000001192092896
+          Head Length: 0.10000000149011612
           Head Radius: 0.10000000149011612
           Name: Goal
-          Shaft Length: 1
+          Shaft Length: 0.20000000298023224
           Shaft Radius: 0.05000000074505806
           Shape: Arrow
           Topic: /move_base_simple/goal
@@ -141,13 +154,13 @@ Visualization Manager:
           Class: rviz/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Costmap
           Topic: /move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: true
-      Enabled: false
+          Value: false
+      Enabled: true
       Name: Global
     - Class: rviz/Group
       Displays:
@@ -163,12 +176,12 @@ Visualization Manager:
           Class: rviz/Map
           Color Scheme: map
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Costmap
           Topic: /move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
-          Value: true
+          Value: false
       Enabled: true
       Name: Local
     - Class: rviz/Group
@@ -279,7 +292,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 16.551727294921875
+      Distance: 4.056511878967285
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -297,7 +310,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.678586006164551
+      Yaw: 4.7185845375061035
     Saved: ~
 Window Geometry:
   Displays:
@@ -315,5 +328,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1920
-  X: 0
-  Y: 29
+  X: 9
+  Y: 38
