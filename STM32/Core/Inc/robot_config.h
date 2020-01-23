@@ -16,9 +16,11 @@
 #define ENCODER_RESOLUTION (1024 * 4 - 1)
 
 // Roues:
-#define DIAMETRE_ROUE     0.085 // m
-#define DIAMETRE_ENCODER  0.037 // m
-#define JOINT_RATIO (DIAMETRE_ENCODER / DIAMETRE_ROUE)
+#define DIAMETRE_ROUE       0.08485 // m
+#define DIAMETRE_ENCODER_L  0.0408 // m
+#define DIAMETRE_ENCODER_R  0.0404 // m
+#define JOINT_RATIO_L (DIAMETRE_ENCODER / DIAMETRE_ROUE)
+#define JOINT_RATIO_R (DIAMETRE_ENCODER_R / DIAMETRE_ROUE)
 
 /**
  * Joint wheel_l
@@ -42,7 +44,7 @@ extern TIM_HandleTypeDef htim1;
 
 // Joint:
 #define L_JOINT_NAME "wheel_l"
-#define l_joint_def { L_JOINT_NAME, JOINT_RATIO }
+#define l_joint_def { L_JOINT_NAME, JOINT_RATIO_L }
 
 // Création du Joint:
 #define wheel_l_defs l_enc_def, l_pid_def, l_mot_def, l_joint_def
@@ -69,7 +71,7 @@ extern TIM_HandleTypeDef htim1;
 
 // Joint:
 #define R_JOINT_NAME "wheel_r"
-#define r_joint_def { R_JOINT_NAME, JOINT_RATIO }
+#define r_joint_def { R_JOINT_NAME, JOINT_RATIO_R }
 
 // Création du Joint:
 #define wheel_r_defs r_enc_def, r_pid_def, r_mot_def, r_joint_def

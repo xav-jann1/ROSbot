@@ -16,8 +16,8 @@ robot:
       # Wheel separation and diameter. These are both optional.
       # diff_drive_controller will attempt to read either one or both from the
       # URDF if not specified as a parameter
-      wheel_separation : 0.189
-      wheel_radius : 0.0425
+      wheel_separation : 0.0976
+      wheel_radius : 0.04255
 
       # Wheel separation and radius multipliers
       wheel_separation_multiplier: 1.0 # default: 1.0
