@@ -135,12 +135,12 @@ Sur un ordinateur, exécuter les actions suivantes pour démarrer les outils pri
   ```sh
   export ROS_MASTER_URI=http://10.42.0.1:11311
   ```
-- Compiler et sourcer le *projet ROS*, en étant dans le dossier [*ROS*](./ROS) :
+- Compiler et sourcer le *projet ROS* sur l'ordinateur et la *Raspberry*, en étant dans le dossier [*ROS*](./ROS) :
   ```sh
   $ catkin_make
   $ source devel/setup.bash
   ```
-- Lancer le *launch file* `robot_bringup.launch`  du package `robot_bringup` pour démarrer le projet :
+- Lancer le *launch file* `robot_bringup.launch` du package `robot_bringup` depuis l'ordinateur pour démarrer le projet :
   ```sh
   $ roslaunch robot_bringup robot_bringup.launch
   ```
