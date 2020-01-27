@@ -81,7 +81,7 @@ Liste des fonctionnalités réalisées et/ou souhaitées pour ce projet :
 ## Vidéos de présentation
 
 - Vidéo du [Pitch](https://youtu.be/VJsIVI4iNSg).
-- Vidéo du [Tutoriel]() (todo).
+- Vidéo du [Tutoriel](https://youtu.be/sGky4Ky0h-s).
 
 
 ## Eléments à installer
