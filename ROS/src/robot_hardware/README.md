@@ -44,6 +44,8 @@ Détails des éléments dans le *launch file* `robot_hardware.launch` :
 ## Schéma
 
 Schéma simplifié des `topics` utilisés :
+![Fonctionnement de l'hardware_interface](../../../images/ROS-Hardware.png)
+<!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
 graph LR
     %% PC:
@@ -53,8 +55,8 @@ graph LR
         NodeHard(hardware_interface)
     end
 
-    NodeHard -- /robot/controller/joints_command --> NodeRossSTM32
-    NodeRossSTM32 -- /robot/controller/joints_data --> NodeHard
+    NodeHard -- /robot/controller/joints_command -> NodeRossSTM32
+    NodeRossSTM32 -- /robot/controller/joints_data -> NodeHard
 
     %% STM32:
     subgraph STM32
@@ -62,12 +64,13 @@ graph LR
     end
 
     %% Input:
-    /robot/controller/base_controller/cmd_vel --> NodeDiff
+    /robot/controller/base_controller/cmd_vel -> NodeDiff
 
     %% Outputs:
-    NodeDiff --> /tf
-    NodeState --> /joint_states
+    NodeDiff -> /tf
+    NodeState -> /joint_states
 ```
+-->
 
 ## Topics et Services
 

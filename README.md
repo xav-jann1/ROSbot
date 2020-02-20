@@ -22,6 +22,8 @@ Les *encodeurs* permettent de connaître la position des roues et de vérifier q
 
 Les positions et vitesses sont renvoyées au [`DiffDriveController`](./ROS/src/robot_hardware) pour déterminer l'odométrie `/odom`.
 
+![Fonctionnement global du projet](./images/Fonctionnement_global.png)
+<!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
 graph LR
     subgraph STM32
@@ -33,14 +35,15 @@ graph LR
         DiffDriveController
     end
 
-    /cmd_vel --> DiffDriveController -. /joints_command .-> rosserial
+    /cmd_vel -> DiffDriveController -. /joints_command .-> rosserial
     rosserial -. /joints_data .-> DiffDriveController
 
-    VelocityJoints -- PWM --> Moteurs(Moteurs) -.- Encodeurs([Encodeurs])
-    Encodeurs -- ticks --> VelocityJoints
+    VelocityJoints -- PWM -> Moteurs(Moteurs) -.- Encodeurs([Encodeurs])
+    Encodeurs -- ticks -> VelocityJoints
 
-    DiffDriveController --> /odom
+    DiffDriveController -> /odom
 ```
+-->
 
 En complément, la *Raspberry* implémente des outils de [**navigation**](./ROS/src/robot_navigation) pour générer des *commandes en vitesse* pour que le robot se déplace à une position demandée.
 Ces outils sont aussi capable d'éviter des obstacles en connaissant la carte dans laquelle se déplace le robot :

@@ -66,25 +66,27 @@ Les classes [`Encoder`](./Core/Src/robot_Encoder.cpp), [`Motor`](./Core/Src/robo
 Pour gérer la communication avec *ROS* par des `topics`, une implémentation de [`rosserial`](https://github.com/xav-jann1/rosserial_stm32f4) est utilisée, pour faire fonctionner la `STM32` comme un *noeud ROS*.
 
 Schéma simplifié du fontionnement de la `STM32` :
-
+![Fonctionnement de la STM32](../images/STM32-Fonctionnement.png)
+<!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
     graph TB
 
     subgraph VelocityJoint
-        cEncoder(Encoder) --vel--> cPID(PID) --effort--> cMotor(Motor)
+        cEncoder(Encoder) --vel-> cPID(PID) --effort-> cMotor(Motor)
     end
 
     subgraph Robot
         Encodeur([Encodeur]) -.- Moteur((Moteur)) 
     end
 
-    Encodeur --ticks--> cEncoder
-    cMotor --pwm--> Moteur
+    Encodeur --ticks-> cEncoder
+    cMotor --pwm-> Moteur
 
     subgraph  rosserial
         /command -.cmd_vel.-> cPID
     end
 ```
+-->
 
 ## Configuration
 
@@ -111,7 +113,6 @@ Le reste de la configuration utilise des constantes générées par le `Device C
   | `PWM_PERIOD`     | `(CLOCK_FREQ / PWM_FREQ - 1)`
 
 - par les `User Labels` des `GPIOs`, qui permettent d'obtenir le détail des pins en fonction d'un label :
-
   ![Pins de la STM32 avec Labels](../images/STM32-pins.png)
 
 Ces constantes se retrouvent ensuite dans le fichier [`main.h`](./Core/Inc/main.h).
@@ -145,7 +146,8 @@ Etapes des configurations des périphériques réalisées avec le `Device Config
 ## Schéma
 
 **Décomposition des classes :**
-
+![Détails des Classes de la STM32](../images/STM32-Classes.png)
+<!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
 classDiagram
     VelocityJoint <|-- Encoder
@@ -221,6 +223,7 @@ classDiagram
         offset: float 
     }
 ```
+-->
 
 ## Exemples
 

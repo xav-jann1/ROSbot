@@ -56,16 +56,23 @@ Packages utilisés : [`teleop_keyboard`](http://wiki.ros.org/teleop_twist_keyboa
 ## Schémas
 
 **Sans multiplexeur :**
+
+![Topics sans multiplexeur](../../../images/ROS-Control-sans-multiplexeur.png)
+<!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
     graph LR
 
-    /nav_vel --> /cmd_vel
-    /key_vel --> /cmd_vel
-    /joy_vel --> /cmd_vel
-    /mouse_vel --> /cmd_vel
+    /nav_vel -> /cmd_vel
+    /key_vel -> /cmd_vel
+    /joy_vel -> /cmd_vel
+    /mouse_vel -> /cmd_vel
 ```
+-->
 
 **Avec multiplexeur :**
+
+![Topics avec multiplexeur](../../../images/ROS-Control-avec-multiplexeur.png)
+<!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
     graph LR
 
@@ -73,11 +80,12 @@ Packages utilisés : [`teleop_keyboard`](http://wiki.ros.org/teleop_twist_keyboa
     Mux(twist_mux)
 
     %% Inputs:
-    /nav_vel --> Mux
-    /key_vel --> Mux
-    /joy_vel --> Mux
-    /mouse_vel --> Mux
+    /nav_vel -> Mux
+    /key_vel -> Mux
+    /joy_vel -> Mux
+    /mouse_vel -> Mux
 
     %% Output:
-    Mux --> /cmd_vel
+    Mux -> /cmd_vel
 ```
+-->
