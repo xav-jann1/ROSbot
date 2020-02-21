@@ -1,4 +1,4 @@
-# Sujet 9 - Galileo ROS
+# ROSbot
 
 **Projet de majeure Robotique** en *5ème Année* à l'école [CPE Lyon](https://www.cpe.fr/).
 
