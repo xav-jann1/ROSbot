@@ -1,7 +1,7 @@
 #ifndef ROBOT_ENCODER_H_
 #define ROBOT_ENCODER_H_
 
-#include "robot.h"
+#include "utils.h"
 #include "stm32f4xx_hal.h"
 
 #include <string>

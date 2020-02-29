@@ -34,7 +34,7 @@
 
 // Original version: Melonee Wise <mwise@willowgarage.com>
 
-#include "robot_PID.h"
+#include "robot/PID.h"
 
 namespace robot {
 

@@ -1,4 +1,4 @@
-#include "robot_node.h"
+#include "robot/node/node.h"
 
 // Joints:
 extern robot::VelocityJoint wheel_l_joint;

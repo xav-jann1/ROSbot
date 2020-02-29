@@ -21,7 +21,7 @@
  *  - in2 : GPIO PB5
  */
 
-#include "robot_Motor.h"
+#include "robot/Motor.h"
 #include "mainpp.h"
 #include "main.h"
 

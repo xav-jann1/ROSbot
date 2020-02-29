@@ -26,7 +26,7 @@
 
 #include "mainpp.h"
 #include "main.h"
-#include "robot_Encoder.h"
+#include "robot/Encoder.h"
 #include <stdio.h>  // printf: "Use float with printf ..." doit être activé
                     //          dans Project / Properties / C/C++ Build / Settings / Tool Settings
 

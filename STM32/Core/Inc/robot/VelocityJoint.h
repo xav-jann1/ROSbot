@@ -2,9 +2,9 @@
 #define ROBOT_VELOCITYJOINT_H_
 
 #include <string>
-#include "robot_PID.h"
-#include "robot_Motor.h"
-#include "robot_Encoder.h"
+#include "robot/PID.h"
+#include "robot/Motor.h"
+#include "robot/Encoder.h"
 #include "std_msgs/Bool.h"
 
 namespace robot {

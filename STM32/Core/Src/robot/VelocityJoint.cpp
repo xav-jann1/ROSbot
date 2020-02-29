@@ -1,4 +1,4 @@
-#include "robot_VelocityJoint.h"
+#include "robot/VelocityJoint.h"
 
 namespace robot {
 

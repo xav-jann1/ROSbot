@@ -1,9 +1,9 @@
 #include "main.h"
 #include "mainpp.h"
-#include "robot_VelocityJoint.h"
-#include "robot_node.h"
-#include "robot_joint.h"
-#include "robot_config.h"
+#include "robot/VelocityJoint.h"
+#include "robot/node/node.h"
+#include "robot/node/joint.h"
+#include "robot/config.h"
 #include "ros.h"
 
 // VelocityJoint:

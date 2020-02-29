@@ -1,4 +1,4 @@
-#include "robot_joint.h"
+#include "robot/node/joint.h"
 
 namespace robot {
 
