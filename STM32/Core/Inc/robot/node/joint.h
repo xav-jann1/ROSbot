@@ -1,15 +1,15 @@
 #ifndef ROBOT_JOINT_H_
 #define ROBOT_JOINT_H_
 
-#include <string>
+#include "robot/node/VelocityJointWithTopics.h"
 #include "ros.h"
-#include "robot/VelocityJoint.h"
+#include <string>
 
 namespace robot {
 
-void initJoint(robot::VelocityJoint &joint, ros::NodeHandle& nh);
+void initJoint(robot::VelocityJointWithTopics &joint, ros::NodeHandle& nh);
 
-void getJointPidValues(robot::VelocityJoint &joint, std::string topic_name, ros::NodeHandle& nh);
+void getJointPidValues(robot::VelocityJointWithTopics &joint, std::string topic_name, ros::NodeHandle& nh);
 
 }
 
