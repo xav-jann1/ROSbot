@@ -4,6 +4,7 @@
 #include "robot/node/node.h"
 #include "robot/node/joint.h"
 #include "robot/config.h"
+#include "utils.h"
 #include "ros.h"
 
 // VelocityJoint:
@@ -27,7 +28,7 @@ void setup(void) {
   nh.loginfo("STM32 Connecté !");
 
   // Allume LED:
-  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  LED_ON();
   t = t1 = 0;
 }
 

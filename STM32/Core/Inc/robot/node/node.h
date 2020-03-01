@@ -6,6 +6,7 @@
 
 #include "robot/config.h"
 #include "robot/VelocityJoint.h"
+#include "utils.h"
 
 namespace robot {
 

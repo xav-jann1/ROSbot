@@ -19,7 +19,7 @@ void joints_command_cb(const std_msgs::Float64MultiArray &msg) {
   static int counter = 0;
   if (++counter == 10) {
     counter = 0;
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    LED_TOGGLE();
   }
 }
 ros::Subscriber<std_msgs::Float64MultiArray> joints_command_sub(JOINTS_COMMAND_TOPIC, &joints_command_cb);
@@ -46,7 +46,7 @@ void updateNode(ros::NodeHandle& nh) {
     // Eteint les moteurs et la LED:
     wheel_l_joint.command(0.0f);
     wheel_r_joint.command(0.0f);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+    LED_OFF();
   }
 }
 
