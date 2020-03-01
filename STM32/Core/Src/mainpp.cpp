@@ -27,8 +27,7 @@ void setup(void) {
   robot::initNode(nh);
   nh.loginfo("STM32 Connecté !");
 
-  // Allume LED:
-  LED_ON();
+  // Active les envois de données de la boucle 1 ms:
   t = t1 = 0;
 }
 

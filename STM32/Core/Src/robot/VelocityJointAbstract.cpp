@@ -2,10 +2,11 @@
 
 namespace robot {
 
-VelocityJointAbstract::VelocityJointAbstract(Encoder* encoder, Pid* pid, Motor* motor, float ratio = 0) :
+VelocityJointAbstract::VelocityJointAbstract(Encoder* encoder, Pid* pid, Motor* motor, float ratio = 1) :
     encoder_(encoder),
     pid_(pid),
-    motor_(motor)
+    motor_(motor),
+    ratio_(ratio)
 {
 }
 

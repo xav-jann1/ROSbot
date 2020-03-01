@@ -48,6 +48,11 @@ void updateNode(ros::NodeHandle& nh) {
     wheel_r_joint.command(0.0f);
     LED_OFF();
   }
+
+  // Allume la LED au démarrage de la connexion:
+  static bool connected = false;
+  if (!connected && nh.connected()) LED_ON();
+  connected = nh.connected();
 }
 
 void publishJointsData() {
@@ -57,7 +62,7 @@ void publishJointsData() {
   joints_data_msg.data[2] = wheel_l_joint.getPWM();
   joints_data_msg.data[3] = wheel_r_joint.getPosition();
   joints_data_msg.data[4] = wheel_r_joint.getVelocity();
-  joints_data_msg.data[5] = wheel_l_joint.getPWM();
+  joints_data_msg.data[5] = wheel_r_joint.getPWM();
 
   // Publie le message:
   joints_data_pub.publish(&joints_data_msg);
