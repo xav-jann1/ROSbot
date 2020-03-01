@@ -2,7 +2,7 @@
 #include "main.h"
 #include <stdio.h>
 
-#include "robot_VelocityJoint.h"
+#include "robot/VelocityJoint.h"
 
 // Constantes déjà configurées dans 'Device Configuration Tool':
 #define ENCODER_PERIOD 0xFFFF

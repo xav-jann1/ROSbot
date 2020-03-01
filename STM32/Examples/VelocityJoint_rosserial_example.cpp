@@ -6,7 +6,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
 
-#include "robot_VelocityJoint.h"
+#include "robot/VelocityJoint.h"
 
 // Constantes déjà configurées dans 'Device Configuration Tool':
 #define ENCODER_PERIOD 0xFFFF

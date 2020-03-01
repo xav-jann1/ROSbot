@@ -1,14 +1,14 @@
 #include "main.h"
 #include "mainpp.h"
-#include "robot_VelocityJoint.h"
-#include "robot_node.h"
-#include "robot_joint.h"
-#include "robot_config.h"
+#include "robot/VelocityJoint.h"
+#include "robot/node/node.h"
+#include "robot/node/joint.h"
+#include "robot/config.h"
 #include "ros.h"
 
 // VelocityJoint:
-robot::VelocityJoint wheel_l_joint(wheel_l_defs);
-robot::VelocityJoint wheel_r_joint(wheel_r_defs);
+robot::VelocityJointWithTopics wheel_l_joint(wheel_l_defs);
+robot::VelocityJointWithTopics wheel_r_joint(wheel_r_defs);
 
 // Node:
 ros::NodeHandle nh;

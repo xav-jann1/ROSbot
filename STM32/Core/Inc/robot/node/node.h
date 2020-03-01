@@ -4,8 +4,8 @@
 #include "ros.h"
 #include "std_msgs/Float64MultiArray.h"
 
-#include "robot_config.h"
-#include "robot_VelocityJoint.h"
+#include "robot/config.h"
+#include "robot/VelocityJoint.h"
 
 namespace robot {
 

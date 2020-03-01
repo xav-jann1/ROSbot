@@ -1,7 +1,7 @@
 #include "mainpp.h"
 #include "main.h"
-#include "robot_config.h"
-#include "robot_VelocityJoint.h"
+#include "robot/config.h"
+#include "robot/VelocityJoint.h"
 #include <stdio.h>
 
 // Motors: (pour commander en PWM)

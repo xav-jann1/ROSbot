@@ -1,8 +1,8 @@
-#include "robot_joint.h"
+#include "robot/node/joint.h"
 
 namespace robot {
 
-void initJoint(robot::VelocityJoint &joint, ros::NodeHandle& nh) {
+void initJoint(robot::VelocityJointWithTopics &joint, ros::NodeHandle& nh) {
   // Initialisation:
   joint.init();
 
@@ -15,7 +15,7 @@ void initJoint(robot::VelocityJoint &joint, ros::NodeHandle& nh) {
   joint.addEncoderSubscriber(nh);
 }
 
-void getJointPidValues(robot::VelocityJoint &joint, std::string topic_name, ros::NodeHandle& nh) {
+void getJointPidValues(robot::VelocityJointWithTopics &joint, std::string topic_name, ros::NodeHandle& nh) {
   joint.initPid(nh, topic_name.c_str());
 }
 
