@@ -5,39 +5,30 @@ namespace robot {
 EncoderWithTopics::EncoderWithTopics(EncoderDef enc_def, std::string name) :
     Encoder(enc_def),
 
-    pos_name_(name + "/pos"), vel_name_(name + "/vel"), ticks_name_(name + "/ticks"), dticks_name_(name + "/dticks"),
-    pos_pub_(pos_name_.c_str(), &pos_msg_),
-    vel_pub_(vel_name_.c_str(), &vel_msg_),
-    ticks_pub_(ticks_name_.c_str(), &ticks_msg_),
-    dticks_pub_(dticks_name_.c_str(), &dticks_msg_),
-
-    reset_name_(name + "/reset"),
-    reset_sub_(reset_name_.c_str(), &EncoderWithTopics::reset_cb, this)
+    pos_pub_(name + "/pos"),
+    vel_pub_(name + "/vel"),
+    ticks_pub_(name + "/ticks"),
+    dticks_pub_(name + "/dticks"),
+    reset_sub_(name + "/reset", &EncoderWithTopics::reset_cb, this)
 {
 }
 
-
 void EncoderWithTopics::addPublishers(ros::NodeHandle& nh) {
-  nh.advertise(pos_pub_);
-  nh.advertise(vel_pub_);
-  nh.advertise(ticks_pub_);
-  nh.advertise(dticks_pub_);
+  pos_pub_.advertise(nh);
+  vel_pub_.advertise(nh);
+  ticks_pub_.advertise(nh);
+  dticks_pub_.advertise(nh);
 }
 
 void EncoderWithTopics::addSubscriber(ros::NodeHandle& nh) {
-  nh.subscribe(reset_sub_);
+  reset_sub_.subscribe(nh);
 }
 
 void EncoderWithTopics::publishData() {
-  pos_msg_.data = getPosition();
-  vel_msg_.data = getVelocity();
-  ticks_msg_.data = ticks_;
-  dticks_msg_.data = dticks_;
-
-  pos_pub_.publish(&pos_msg_);
-  vel_pub_.publish(&vel_msg_);
-  ticks_pub_.publish(&ticks_msg_);
-  dticks_pub_.publish(&dticks_msg_);
+  pos_pub_.publish(getPosition());
+  vel_pub_.publish(getVelocity());
+  ticks_pub_.publish(ticks_);
+  dticks_pub_.publish(dticks_);
 }
 
 } /* namespace robot */

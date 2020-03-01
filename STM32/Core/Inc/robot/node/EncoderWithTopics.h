@@ -5,6 +5,8 @@
 #include <string>
 
 #include "ros.h"
+#include "robot/node/TopicSubscriber.h"
+#include "robot/node/TopicPublisher.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/Int32.h"
 #include "std_msgs/Empty.h"
@@ -23,27 +25,14 @@ public:
   void addSubscriber(ros::NodeHandle& nh);
 
 private:
-  // Noms des topics des publishers:
-  std::string pos_name_;
-  std::string vel_name_;
-  std::string ticks_name_;
-  std::string dticks_name_;
-
   // Publishers:
-  ros::Publisher pos_pub_;
-  ros::Publisher vel_pub_;
-  ros::Publisher ticks_pub_;
-  ros::Publisher dticks_pub_;
-
-  // Publishers' message:
-  std_msgs::Float32 pos_msg_;
-  std_msgs::Float32 vel_msg_;
-  std_msgs::Int32 ticks_msg_;
-  std_msgs::Int32 dticks_msg_;
+  TopicPublisher<std_msgs::Float32> pos_pub_;
+  TopicPublisher<std_msgs::Float32> vel_pub_;
+  TopicPublisher<std_msgs::Int32> ticks_pub_;
+  TopicPublisher<std_msgs::Int32> dticks_pub_;
 
   // Subscriber:
-  std::string reset_name_;
-  ros::Subscriber<std_msgs::Empty, robot::EncoderWithTopics> reset_sub_;
+  TopicSubscriber<std_msgs::Empty, robot::EncoderWithTopics> reset_sub_;
   void reset_cb(const std_msgs::Empty &msg) { ticks_ = dticks_ = dticks_s_ = 0; }
 };
 

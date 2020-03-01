@@ -8,7 +8,10 @@
 #include "robot/Motor.h"
 
 #include "ros.h"
+#include "robot/node/TopicSubscriber.h"
+#include "robot/node/TopicPublisher.h"
 #include "std_msgs/Bool.h"
+#include "std_msgs/Float32.h"
 
 namespace robot {
 
@@ -53,30 +56,18 @@ private:
   Motor motor_;
 
   // Subscribers:
-  std::string set_command_name_;
-  ros::Subscriber<std_msgs::Float32, robot::VelocityJointWithTopics> set_command_sub_;
+  TopicSubscriber<std_msgs::Float32, robot::VelocityJointWithTopics> set_command_sub_;
   void set_command_cb(const std_msgs::Float32 &msg) { cmd_vel_ = msg.data; }
 
-  std::string on_off_name_;
-  ros::Subscriber<std_msgs::Bool, robot::VelocityJointWithTopics> on_off_sub_;
+  TopicSubscriber<std_msgs::Bool, robot::VelocityJointWithTopics> on_off_sub_;
   void on_off_cb(const std_msgs::Bool &msg) {
     msg.data ? motor_.on() : motor_.off();
   }
 
-  // Publishers'name:
-  std::string pos_name_;
-  std::string vel_name_;
-  std::string pwm_name_;
-
   // Publishers:
-  ros::Publisher pos_pub_;
-  ros::Publisher vel_pub_;
-  ros::Publisher pwm_pub_;
-
-  // Publishers' message:
-  std_msgs::Float32 pos_msg_;
-  std_msgs::Float32 vel_msg_;
-  std_msgs::Float32 pwm_msg_;
+  TopicPublisher<std_msgs::Float32> pos_pub_;
+  TopicPublisher<std_msgs::Float32> vel_pub_;
+  TopicPublisher<std_msgs::Float32> pwm_pub_;
 };
 
 } /* namespace robot */
