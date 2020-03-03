@@ -6,7 +6,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float32.h"
 
-#include "robot/VelocityJoint.h"
+#include "robot/node/VelocityJointWithTopics.h"
 
 // Constantes déjà configurées dans 'Device Configuration Tool':
 #define ENCODER_PERIOD 0xFFFF
@@ -24,10 +24,10 @@ float pid_i1 = 0.3f, pid_i2 = -0.3f;
 #define pid_def { pid_p, pid_i, pid_d, pid_i1, pid_i2 }
 
 // Motor:
-extern TIM_HandleTypeDef htim2;
-#define mot_enA { htim2, TIM_CHANNEL_3, PWM_PERIOD, 0.8f, 0.2f }
-#define mot_in1 { GPIOB, GPIO_PIN_4 }
-#define mot_in2 { GPIOB, GPIO_PIN_5 }
+extern TIM_HandleTypeDef htim1;
+#define mot_enA { htim1, TIM_CHANNEL_1, PWM_PERIOD, 0.8f, 0.2f }
+#define mot_in1 { GPIOB, GPIO_PIN_9 }
+#define mot_in2 { GPIOB, GPIO_PIN_8 }
 #define mot_def { mot_enA, mot_in1, mot_in2 }
 
 // Joint:
@@ -37,7 +37,7 @@ extern TIM_HandleTypeDef htim2;
 #define LOOP_DATA_MS 100
 
 // VelocityJoint:
-robot::VelocityJoint joint(enc_def, pid_def, mot_def, joint_def);
+robot::VelocityJointWithTopics joint(enc_def, pid_def, mot_def, joint_def);
 
 // Node:
 ros::NodeHandle nh;

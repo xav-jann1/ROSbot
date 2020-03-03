@@ -9,8 +9,8 @@ robot::Motor motor_l(l_mot_def);
 robot::Motor motor_r(r_mot_def);
 
 // Encoders: (pour récupérer les données)
-robot::Encoder encoder_l(l_enc_def, "encoder_l");
-robot::Encoder encoder_r(r_enc_def, "encoder_r");
+robot::Encoder encoder_l(l_enc_def);
+robot::Encoder encoder_r(r_enc_def);
 
 // VelocityJoint:
 // (pour ne pas avoir d'erreur lors de la compilation à cause de robot_node.cpp)

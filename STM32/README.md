@@ -61,11 +61,13 @@ La `STM32` contrôle les **moteurs** et récupère leur position grâce à des *
 
 Un **PID** est alors réalisé pour alimenter les moteurs pour qu'une **consigne en vitesse** soit respectée.
 
-Les classes [`Encoder`](./Core/Src/robot_Encoder.cpp), [`Motor`](./Core/Src/robot_Motor.cpp) et [`PID`](./Core/Src/robot_PID.cpp) sont ainsi rassemblées en une unique classe : [`VelocityJoint`](./Core/Src/robot_VelocityJoint.cpp).
+Les classes [`Encoder`](./Core/Inc/robot/Encoder.h), [`Motor`](./Core/Inc/robot/Motor.h) et [`PID`](./Core/Inc/robot/PID.h) sont ainsi rassemblées en une unique classe : [`VelocityJoint`](./Core/Inc/robot/VelocityJoint.h).
 
 Pour gérer la communication avec *ROS* par des `topics`, une implémentation de [`rosserial`](https://github.com/xav-jann1/rosserial_stm32f4) est utilisée, pour faire fonctionner la `STM32` comme un *noeud ROS*.
 
-Schéma simplifié du fontionnement de la `STM32` :
+De plus, d'autres classes ont été réalisées pour gérer l'envoie et la réception de `topics` : [TopicPublisher](./Core/Inc/robot/node/TopicPublisher.h), [TopicSubscriber](./Core/Inc/robot/node/TopicSubscriber.h) qui sont utilisées dans [EncoderWithTopics](./Core/Inc/robot/node/EncoderWithTopics.h), [PIDwithTopics](./Core/Inc/robot/node/PIDwithTopics.h) et [VelocityJointWithTopics](./Core/Inc/robot/node/VelocityJointWithTopics.h).
+
+Schéma simplifié du fontionnement de la `STM32` pour un moteur :
 ![Fonctionnement de la STM32](../images/STM32-Fonctionnement.png)
 <!--- !!! Pour réutiliser le code : ajouter un tiret '-' à toutes les flèches '->'
 ```mermaid
@@ -90,7 +92,7 @@ Schéma simplifié du fontionnement de la `STM32` :
 
 ## Configuration
 
-Le fichier [robot_config.h](./Core/Inc/robot_config.h) contient la configuration du robot pour correctement paramétrer les *encodeurs*, les *moteurs*, et la communication avec *ROS* :
+Le fichier [robot_config.h](./Core/Inc/robot/config.h) contient la configuration du robot pour correctement paramétrer les *encodeurs*, les *moteurs*, et la communication avec *ROS* :
 - Délais de mise à jour des *encodeur* et des *joints*.
 - *Timers* des *encodeurs* et des *PWM* des *moteurs*.
 - Diamètre des *roue* et *encodeur*.
@@ -228,12 +230,12 @@ classDiagram
 ## Exemples
 
 Des [exemples](./Examples) ont été créés pour expliquer comment utiliser chaque classe :
-- [Encoder](./Examples/Encoder_example.cpp) : exemple d'utilisation de la classe [`Encoder`](./Core/Src/robot_Encoder.cpp).
-- [Motor](./Examples/Motor_example.cpp) : exemple d'utilisation de la classe [`Motor`](./Core/Src/robot_Motor.cpp).
-- [VelocityJoint](./Examples/VelocityJoint_example.cpp) : exemple d'utilisation de la classe [`VelocityJoint`](./Core/Src/robot_VelocityJoint.cpp).
+- [Encoder](./Examples/Encoder_example.cpp) : exemple d'utilisation de la classe [`Encoder`](./Core/Inc/robot/Encoder.h).
+- [Motor](./Examples/Motor_example.cpp) : exemple d'utilisation de la classe [`Motor`](./Core/Inc/robot/Motor.h).
+- [VelocityJoint](./Examples/VelocityJoint_example.cpp) : exemple d'utilisation de la classe [`VelocityJoint`](./Core/Inc/robot/VelocityJoint.h).
 - [rosserial](./Examples/rosserial_example.cpp) : exemple d'utilisation de `rosserial`.
-- [VelocityJoint_rosserial](./Examples/VelocitJoint_example.cpp) : exemple d'utilisation de la classe [`VelocityJoint`](./Core/Src/robot_VelocityJoint.cpp) avec `rosserial`.
-- [joint](./Examples/joint_example.cpp) : exemple pour utiliser un `joint` avec [`VelocityJoint`](./Core/Src/robot_VelocityJoint.cpp) et `rosserial`, grâce à des fonctions simplificatrices. 
+- [VelocityJoint_rosserial](./Examples/VelocityJoint_rosserial_example.cpp) : exemple d'utilisation de la classe [`VelocityJointWithTopics`](./Core/Inc/robot/node/VelocityJointWithTopics.h) avec `rosserial`.
+- [joint](./Examples/joint_example.cpp) : exemple pour utiliser un `joint` avec [`VelocityJoint`](./Core/Inc/robot/node/VelocityJointWithTopics.h) et `rosserial`, grâce à des fonctions simplificatrices. 
 - [joint avec Systick](./Examples/joint_systick_example.cpp) : identique à l'exemple de `joint`, mais utilise le `Systick` pour déclencher une fonction toutes les *millisecondes*.
 - [robot](./Examples/robot_example.cpp) : exemple pour utiliser un *robot à roues différentielles*.
 

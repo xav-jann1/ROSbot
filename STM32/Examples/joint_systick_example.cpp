@@ -1,13 +1,13 @@
 #include "main.h"
 #include "mainpp.h"
-#include "robot/VelocityJoint.h"
+#include "robot/node/VelocityJointWithTopics.h"
 #include "robot/node/node.h"
 #include "robot/node/joint.h"
 #include "robot/config_joint_example.h"
 #include "ros.h"
 
 // VelocityJoint:
-robot::VelocityJoint joint1(joint1_defs);
+robot::VelocityJointWithTopics joint1(joint1_defs);
 
 // Node:
 ros::NodeHandle nh;

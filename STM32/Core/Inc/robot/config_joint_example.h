@@ -1,5 +1,5 @@
-#ifndef ROBOT_CONFIG_H_
-#define ROBOT_CONFIG_H_
+#ifndef ROBOT_CONFIG_EXAMPLE_H_
+#define ROBOT_CONFIG_EXAMPLE_H_
 
 #include "stm32f4xx_hal.h"
 
@@ -8,7 +8,7 @@
 #define LOOP_JOINTS_MS  20
 
 // Topics:
-#define JOINTS_DATA_TOPIC    "controller/joints_data2"
+#define JOINTS_DATA_TOPIC    "controller/joints_data"
 #define JOINTS_COMMAND_TOPIC "controller/joints_command"
 
 // Encoder:
@@ -31,10 +31,10 @@ extern TIM_HandleTypeDef htim3;
 #define joint1_pid_def { pid_values, pid_i_max_min }
 
 // Motor:
-extern TIM_HandleTypeDef htim2;
-#define mot_enA { htim2, TIM_CHANNEL_3, PWM_PERIOD, 0.8f, 0.2f }
-#define mot_in1 { GPIOB, GPIO_PIN_4 }
-#define mot_in2 { GPIOB, GPIO_PIN_5 }
+extern TIM_HandleTypeDef htim1;
+#define mot_enA { htim1, TIM_CHANNEL_1, PWM_PERIOD, 0.8f, 0.0f }
+#define mot_in1 { GPIOB, GPIO_PIN_9 }
+#define mot_in2 { GPIOB, GPIO_PIN_8 }
 #define mot_def { mot_enA, mot_in1, mot_in2 }
 
 // Joint:
@@ -45,4 +45,4 @@ extern TIM_HandleTypeDef htim2;
 // Création du Joint:
 #define joint1_defs enc_def, joint1_pid_def, mot_def, joint_def
 
-#endif /* INC_ROBOT_CONFIG_H_ */
+#endif /* ROBOT_CONFIG_EXAMPLE_H_ */

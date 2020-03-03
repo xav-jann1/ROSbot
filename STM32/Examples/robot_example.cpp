@@ -4,11 +4,12 @@
 #include "robot/node/node.h"
 #include "robot/node/joint.h"
 #include "robot/config.h"
+#include "utils.h"
 #include "ros.h"
 
 // VelocityJoint:
-robot::VelocityJoint wheel_l_joint(wheel_l_defs);
-robot::VelocityJoint wheel_r_joint(wheel_r_defs);
+robot::VelocityJointWithTopics wheel_l_joint(wheel_l_defs);
+robot::VelocityJointWithTopics wheel_r_joint(wheel_r_defs);
 
 // Node:
 ros::NodeHandle nh;
@@ -26,8 +27,7 @@ void setup(void) {
   robot::initNode(nh);
   nh.loginfo("STM32 Connecté !");
 
-  // Allume LED:
-  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  // Active les envois de données de la boucle 1 ms:
   t = t1 = 0;
 }
 

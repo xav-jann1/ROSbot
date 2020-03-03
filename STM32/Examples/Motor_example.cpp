@@ -16,9 +16,9 @@
  * Enfin, alimenter l'encodeur et lancer le programme (copié-collé de ce fichier dans mainpp.cpp).
  *
  * Exemple de configuration de l'exemple:
- *  - en : Timer 2 - Channel 3 (GPIO PB10)
- *  - in1 : GPIO PB4
- *  - in2 : GPIO PB5
+ *  - en : Timer 1 - Channel 1 (GPIO PA8)
+ *  - in1 : GPIO PB9
+ *  - in2 : GPIO PB8
  */
 
 #include "robot/Motor.h"
@@ -30,10 +30,10 @@
 #define PWM_PERIOD (84000000 / PWM_FREQ - 1)
 
 // Motor:
-extern TIM_HandleTypeDef htim2;
-#define mot_enA { htim2, TIM_CHANNEL_3, PWM_PERIOD, 1.0f, 0.0f }
-#define mot_in1 { GPIOB, GPIO_PIN_4 }
-#define mot_in2 { GPIOB, GPIO_PIN_5 }
+extern TIM_HandleTypeDef htim1;
+#define mot_enA { htim1, TIM_CHANNEL_1, PWM_PERIOD, 1.0f, 0.0f }
+#define mot_in1 { GPIOB, GPIO_PIN_9 }
+#define mot_in2 { GPIOB, GPIO_PIN_8 }
 #define mot_def { mot_enA, mot_in1, mot_in2 }
 robot::Motor motor(mot_def);
 
